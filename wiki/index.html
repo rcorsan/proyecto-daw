@@ -4,8 +4,51 @@
         <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
         <title>Catálogos</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+        <link rel="stylesheet" href="../styles/styles.css">
     </head>
     <body>
         <h1>Catálogos</h1>
+        <div class="tab">
+            <button class="tablinks" onclick="openCatalog(event, 'Habilidades')">Habilidades</button>
+            <button class="tablinks" onclick="openCatalog(event, 'Enemigos')">Enemigos</button>
+            <button class="tablinks" onclick="openCatalog(event, 'Consumibles')">Consumibles</button>
+            <button class="tablinks" onclick="openCatalog(event, 'Equipo')">Equipo</button>
+        </div>
+          
+        <div id="Habilidades" class="tabcontent">
+            <h3>Habilidades</h3>
+            <p>Habilidades</p>
+        </div>
+          
+        <div id="Enemigos" class="tabcontent">
+            <h3>Enemigos</h3>
+            <p>Enemigos</p> 
+        </div>
+          
+        <div id="Consumibles" class="tabcontent">
+            <h3>Consumibles</h3>
+            <p>Consumibles</p>
+        </div>
+
+        <div id="Equipo" class="tabcontent">
+            <h3>Equipo</h3>
+            <p>Equipo</p>
+        </div>
+          
+        <script>
+        function openCatalog(evt, catalogName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+              tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+              tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(catalogName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+        </script>
     </body>
 </html>
