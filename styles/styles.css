@@ -61,3 +61,35 @@ body {font-family: Arial;}
     border: 1px solid #ccc;
     border-top: none;
 }
+
+body {
+  background: #7FB0B0;
+}
+.stats{
+  text-align: center;
+  width: 650px;
+  position: relative;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-top: 5px;
+}
+
+.jStats,
+.eStats {
+  text-align: left;
+}
+
+.jugador,
+.enemigo,
+.combate {
+  background: white;
+  height: auto !important;
+  width: 630px;
+  position: relative;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-top: 50px;
+  font-family: Arial, Helvetica, sans-serif;
+  border: 1px black solid;
+  padding: 0 45px 45px 45px;
+}

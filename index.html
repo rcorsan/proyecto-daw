@@ -3,15 +3,72 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
         <title>Inicio</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+        
         <link rel="stylesheet" href="styles/styles.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" ></script>
+        
     </head>
+
     <body>
         <div class="topnav">
             <a href="https://rcorsan.github.io/proyecto-daw/wiki">Catalogo</a>
             <a href="https://rcorsan.github.io/proyecto-daw/help" target="_blank">Ayuda</a>
           </div>
-        <h1>Inicio</h1>
 
+        <div class="container">
+
+            <div class="stats">
+          
+              <div class="jugador">
+                <h1 id="name">Jugador</h1>
+                <br>
+                <div class="jStats">
+
+                  <p id="jSalud"></p>
+          
+                  <button id="atacar">Atacar</button>
+                  <button id="huir">Huir</button>
+                  <!--dropdown -->
+                </div>
+                <!--jStats -->
+          
+              </div>
+              <!--jugador-->
+
+              <div class="combate">
+                <h3>Combate</h3>
+                <br>
+          
+                <p id="combate1"></p>
+                <p id="combate2"></p>
+                <p id="combate3"></p>
+                <p id="combate4">
+                  <button id="restart">Volver a jugar</button>
+                </p>
+                <p id="combate5"></p>
+              </div>
+              <!--combate -->
+          
+              <div class="enemigo">
+                <h1>Enemigo</h1>
+                <hr>
+                <div class="eStats">
+                  <p id="eSalud"></p>
+          
+          
+                </div>
+                <!--eStats -->
+              </div>
+              <!--enemigo-->
+          
+              <br>
+              <br>
+          
+            </div>
+            <!--stats -->
+          </div>
+          <!--container -->
+
+          <script type="text/javascript" src="js/app.js"></script>
     </body>
 </html>
