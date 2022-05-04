@@ -7,12 +7,13 @@
         <link rel="stylesheet" href="../styles/styles.css">
     </head>
     <body>
+        <div id="topnav" class="topnav"></div>
         <h1>Catálogos</h1>
-        <div class="tab">
-            <button class="tablinks" onclick="openCatalog(event, 'Habilidades')">Habilidades</button>
-            <button class="tablinks" onclick="openCatalog(event, 'Enemigos')">Enemigos</button>
-            <button class="tablinks" onclick="openCatalog(event, 'Consumibles')">Consumibles</button>
-            <button class="tablinks" onclick="openCatalog(event, 'Equipo')">Equipo</button>
+        <div id="tab" class="tab">
+            <button class="tablinks" onclick="abrirCatalogo(event, 'Habilidades')">Habilidades</button>
+            <button class="tablinks" onclick="abrirCatalogo(event, 'Enemigos')">Enemigos</button>
+            <button class="tablinks" onclick="abrirCatalogo(event, 'Consumibles')">Consumibles</button>
+            <button class="tablinks" onclick="abrirCatalogo(event, 'Equipo')">Equipo</button>
         </div>
           
         <div id="Habilidades" class="tabcontent">
@@ -35,20 +36,7 @@
             <p>Equipo</p>
         </div>
           
-        <script>
-        function openCatalog(evt, catalogName) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-              tabcontent[i].style.display = "none";
-            }
-            tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
-              tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            document.getElementById(catalogName).style.display = "block";
-            evt.currentTarget.className += " active";
-        }
-        </script>
+        <script src="../scripts/wiki.js"></script>
+        <script src="../scripts/generar.js"></script>
     </body>
 </html>
