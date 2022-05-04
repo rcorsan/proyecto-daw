@@ -90,3 +90,22 @@ body {font-family: Arial;}
   border: 1px black solid;
   padding: 0 45px 45px 45px;
 }
+.grid-container {
+    
+    row-gap: 10px;
+    column-gap: 40px;
+    width: 800px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: auto auto;
+    
+}
+  
+.caja{
+    color: white;
+    background-color:rgb(7, 2, 255);
+    margin: 10px;
+    text-align: center;
+    line-height: 75px;
+    font-size: 30px;
+}
