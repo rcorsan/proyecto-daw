@@ -12,7 +12,7 @@ function generarNav(){
         if (titulo != pagina.titulo) {
             output += "<a href=\"";
             if (titulo != "Inicio") {
-                console.log(titulo);
+                //console.log(titulo);
                 output += ".";
             }
             output += pagina.ref + "\"";
