@@ -20,6 +20,6 @@ $( document ).ready(function() {
 			}
 		});
 		$("#topnav").html(output);
-	}
+	}//función que genera la barra de navegacion
 
 });

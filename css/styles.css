@@ -1,3 +1,9 @@
+*{
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+/*Menu de navegación*/
+
 .topnav {
 	background-color: rgb(7, 2, 255);
 	overflow: hidden;
@@ -22,17 +28,16 @@
 	background-color: #04AA6D;
 	color: white;
 }
-
-body {font-family: Arial;}
 			
-/* Style the tab */
+/* Tabs*/
 .tab {
 	overflow: hidden;
 	border: 1px solid #ccc;
 	background-color: #f1f1f1;
 }
 			
-/* Style the buttons inside the tab */
+/*BotonesTabs */
+
 .tab button {
 	background-color: inherit;
 	float: left;
@@ -44,17 +49,18 @@ body {font-family: Arial;}
 	font-size: 17px;
 }
 			
-/* Change background color of buttons on hover */
+
 .tab button:hover {
 	background-color: #ddd;
 }
 			
-/* Create an active/current tablink class */
+
 .tab button.active {
 	background-color: #ccc;
 }
 			
-/* Style the tab content */
+/* ContenidoTabs */
+
 .tabcontent {
 	display: none;
 	padding: 6px 12px;
@@ -69,6 +75,35 @@ body {font-family: Arial;}
 	margin-left: auto !important;
 	margin-right: auto !important;
 	margin-top: 5px;
+}
+
+/*Desplegable ayuda*/
+
+.desplegable {
+	background-color: #eee;
+	color: #444;
+	cursor: pointer;
+	padding: 18px;
+	width: 50%;
+	margin-left: 450px;
+	text-align:center;
+	border: none;
+	outline: none;
+	transition: 0.4s;
+}
+  
+
+.active, .desplegable:hover {
+	background-color: #ccc;
+}
+  
+  
+.panel {
+	padding: 0 18px;
+	background-color: white;
+	display: none;
+	margin-left: 450px;
+	overflow: hidden;
 }
 
 .jStats,
