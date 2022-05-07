@@ -1,15 +1,12 @@
-var acc = document.getElementsByClassName("desplegable");
-var i;
+$( document ).ready(function() {
 
-for (i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var panel = this.nextElementSibling;
+  $(".desplegable").click(function (e) { 
     
-    if (panel.style.display === "block") {
-      panel.style.display = "none";
-    } else {
-      panel.style.display = "block";
-    }
+    e.preventDefault();
+    $(e.target).toggleClass("active");
+    let panel = $(e.target).next();
+    $(panel).toggle(450);
+
   });
-}
+
+});

@@ -1,17 +1,48 @@
 *{
 	font-family: Arial, Helvetica, sans-serif;
+	--color-principal: rgb(7, 2, 255);
+	--color-secundario: rgb(112, 147, 211);
+	--color-contraste: rgb(188, 86, 235);
+}
+
+/*Body*/
+
+body{
+	margin: 0px 0px 88px 0px;
+}
+
+/*Footer*/
+
+.footer{
+	background-color: var(--color-principal);
+	padding: 2px;
+	text-align: center;
+	color: white;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+}
+
+.footer a{
+	text-decoration: none;
+	color: var(--color-secundario);
+}
+
+.footer a:hover{
+	color: white;
 }
 
 /*Menu de navegación*/
 
 .topnav {
-	background-color: rgb(7, 2, 255);
+	background-color: var(--color-principal);
 	overflow: hidden;
 }
 
 .topnav a {
 	float: left;
-	color: #f2f2f2;
+	color: white;
 	text-align: center;
 	padding: 14px 16px;
 	text-decoration: none;
@@ -19,21 +50,15 @@
 }
   
 .topnav a:hover {
-	background-color: #ddd;
+	background-color: var(--color-secundario);
 	color: black;
-}
-  
-
-.topnav a.active {
-	background-color: #04AA6D;
-	color: white;
 }
 			
 /* Tabs*/
 .tab {
 	overflow: hidden;
-	border: 1px solid #ccc;
-	background-color: #f1f1f1;
+	border: 1px solid var(--color-principal);
+	background-color: var(--color-secundario);
 }
 			
 /*BotonesTabs */
@@ -51,12 +76,14 @@
 			
 
 .tab button:hover {
-	background-color: #ddd;
+	background-color: var(--color-principal);
+	color: white;
 }
 			
 
 .tab button.active {
-	background-color: #ccc;
+	background-color: var(--color-contraste);
+	color: black;
 }
 			
 /* ContenidoTabs */
@@ -64,7 +91,7 @@
 .tabcontent {
 	display: none;
 	padding: 6px 12px;
-	border: 1px solid #ccc;
+	border: 1px solid var(--color-principal);
 	border-top: none;
 }
 
@@ -80,8 +107,8 @@
 /*Desplegable ayuda*/
 
 .desplegable {
-	background-color: #eee;
-	color: #444;
+	background-color: var(--color-secundario);
+	color: black;
 	cursor: pointer;
 	padding: 18px;
 	width: 50%;
@@ -93,8 +120,8 @@
 }
   
 
-.active, .desplegable:hover {
-	background-color: #ccc;
+.desplegable.active, .desplegable:hover {
+	background-color: var(--color-contraste);
 }
   
   
@@ -138,9 +165,10 @@
   
 .caja{
     color: white;
-    background-color:rgb(7, 2, 255);
+    background-color:var(--color-principal);
     margin: 10px;
     text-align: center;
     line-height: 75px;
     font-size: 30px;
+	cursor: pointer;
 }
