@@ -99,8 +99,7 @@ body{
 	text-align: center;
 	width: 650px;
 	position: relative;
-	margin-left: auto !important;
-	margin-right: auto !important;
+	margin-left: 25%;
 	margin-top: 5px;
 }
 
@@ -112,8 +111,7 @@ body{
 	cursor: pointer;
 	padding: 18px;
 	width: 50%;
-	margin-left: auto !important;
-	margin-right: auto !important;
+	margin-left: 25%;
 	text-align:center;
 	border: none;
 	outline: none;
