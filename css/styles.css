@@ -95,14 +95,6 @@ body{
 	border-top: none;
 }
 
-.stats{
-	text-align: center;
-	width: 650px;
-	position: relative;
-	margin-left: 25%;
-	margin-top: 5px;
-}
-
 /*Desplegable ayuda*/
 
 .desplegable {
@@ -128,9 +120,18 @@ body{
 	padding: 0 18px;
 	background-color: white;
 	display: none;
+	margin-left: 25%;
+	overflow: hidden;
+}
+
+
+.stats{
+	text-align: center;
+	width: 650px;
+	position: relative;
 	margin-left: auto !important;
 	margin-right: auto !important;
-	overflow: hidden;
+	margin-top: 5px;
 }
 
 .jStats,
