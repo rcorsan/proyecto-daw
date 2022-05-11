@@ -112,7 +112,8 @@ body{
 	cursor: pointer;
 	padding: 18px;
 	width: 50%;
-	margin: 0 auto 0 auto;
+	margin-left: auto !important;
+	margin-right: auto !important;
 	text-align:center;
 	border: none;
 	outline: none;
@@ -129,7 +130,8 @@ body{
 	padding: 0 18px;
 	background-color: white;
 	display: none;
-	margin: 0 auto 0 auto;
+	margin-left: auto !important;
+	margin-right: auto !important;
 	overflow: hidden;
 }
 
