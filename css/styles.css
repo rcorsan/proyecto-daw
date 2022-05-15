@@ -47,6 +47,7 @@ body{
 	padding: 14px 16px;
 	text-decoration: none;
 	font-size: 17px;
+	transition: all 0.4s;
 }
   
 .topnav a:hover {
@@ -70,7 +71,7 @@ body{
 	outline: none;
 	cursor: pointer;
 	padding: 14px 16px;
-	transition: 0.3s;
+	transition: all 0.4s;
 	font-size: 17px;
 }
 			
@@ -107,7 +108,8 @@ body{
 	text-align:center;
 	border: none;
 	outline: none;
-	transition: 0.4s;
+	transition: all 0.4s;
+	
 }
   
 
