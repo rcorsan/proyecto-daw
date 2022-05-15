@@ -1,0 +1,9 @@
+[
+    {
+    "id":"100",
+    "nombre":"Habilidad 1",
+    "descripcion":"desc",
+    "explicacion":"exp",
+    "coste":"23"
+    }
+]
