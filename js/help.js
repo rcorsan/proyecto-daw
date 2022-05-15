@@ -13,13 +13,11 @@ $( document ).ready(function() {
   generarBotones();
 
   function generarBotones(){
-    var contenedor = document.getElementById('container');
+    let output = "";
     ayudas.forEach(categoria => {
-      var caja = '<div class="caja" >'+categoria.titulo+'</div>'
-       contenedor.innerHTML += caja;
+      output += '<div class="caja" >'+categoria.titulo+'</div>'
     });
-   
-    
+    $("#container").html(output);
 
   };
 
