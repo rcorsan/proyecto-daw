@@ -1,4 +1,4 @@
-[
+const consumibles = [
     {
         "id" : 300,
         "nombre" : "poción curativa pequeña",
@@ -6,4 +6,4 @@
         "explicacion" : "Al consumirse restaura 20 puntos de salud.",
         "precio" : 10
     }
-]
+];

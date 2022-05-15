@@ -1,4 +1,4 @@
-[
+const equipo = [
     {
         "id" : 400,
         "nombre" : "equipo 1",
@@ -18,4 +18,4 @@
         "tipo" : "espada",
         "rareza" : 0
     }   
-]
+];
