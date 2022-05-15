@@ -1,4 +1,4 @@
-[
+const habilidades = [
     {
         "id" : 100,
         "nombre" : "habilidad 1",
@@ -18,4 +18,4 @@
             "equipo" : "espada"
         }
     }
-]
+];

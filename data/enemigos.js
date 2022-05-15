@@ -1,4 +1,4 @@
-[
+const enemigos = [
     {
         "id" : 200,
         "nombre" : "limo",
@@ -26,4 +26,4 @@
         "clase" : 0,
         "tipo" : "limo"
     }
-]
+];
