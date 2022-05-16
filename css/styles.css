@@ -49,7 +49,7 @@ body{
 	font-size: 17px;
 	transition: all 0.4s;
 }
-  
+
 .topnav a:hover {
 	background-color: var(--color-secundario);
 	color: black;
@@ -111,13 +111,13 @@ body{
 	transition: all 0.4s;
 	
 }
-  
+
 
 .desplegable.active, .desplegable:hover {
 	background-color: var(--color-contraste);
 }
-  
-  
+
+
 .panel {
 	padding: 0 18px;
 	background-color: white;
@@ -165,7 +165,7 @@ body{
     grid-template-columns: auto auto;
     
 }
-  
+
 .caja{
     color: white;
     background-color:var(--color-principal);
