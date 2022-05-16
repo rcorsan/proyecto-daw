@@ -15,7 +15,8 @@ const habilidades = [
             "vitalidad" : 5,
             "espiritu" : 3,
             "nivel" : 2,
-            "equipo" : "espada"
+            "equipo" : "espada",
+            "imagen": ""
         }
     },
     {
@@ -34,7 +35,8 @@ const habilidades = [
             "vitalidad" : 5,
             "espiritu" : 3,
             "nivel" : 2,
-            "equipo" : "espada"
+            "equipo" : "espada",
+            "imagen": ""
         }
     }
 ];

@@ -24,7 +24,8 @@ const enemigos = [
             "espiritu" : 15
         },
         "clase" : 0,
-        "tipo" : "limo"
+        "tipo" : "limo",
+        "imagen": ""
     },
     {
         "id" : 201,
@@ -51,6 +52,7 @@ const enemigos = [
             "espiritu" : 15
         },
         "clase" : 0,
-        "tipo" : "limo"
+        "tipo" : "limo",
+        "imagen": ""
     }
 ];

@@ -16,7 +16,8 @@ const equipo = [
         "precio" : 23,
         "clase" : "arma",
         "tipo" : "espada",
-        "rareza" : 0
+        "rareza" : 0,
+        "imagen": ""
     }, 
     {
         "id" : 401,
@@ -35,6 +36,7 @@ const equipo = [
         "precio" : 23,
         "clase" : "arma",
         "tipo" : "espada",
-        "rareza" : 0
+        "rareza" : 0,
+        "imagen": ""
     }  
 ];
