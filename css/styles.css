@@ -40,11 +40,15 @@ body{
 	overflow: hidden;
 }
 
+#navLogo{
+	float: left;
+}
+
 .topnav a {
 	float: left;
 	color: white;
 	text-align: center;
-	padding: 14px 16px;
+	padding: 16px;
 	text-decoration: none;
 	font-size: 17px;
 	transition: all 0.4s;
@@ -54,7 +58,8 @@ body{
 	background-color: var(--color-secundario);
 	color: black;
 }
-			
+
+
 /* Tabs*/
 .tab {
 	overflow: hidden;
