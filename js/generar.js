@@ -1,19 +1,28 @@
 $( document ).ready(function() {
 	generarNav();
 	generarFooter();
+
 });
+
+let href = document.location.href;
 
 function generarNav(){
 	const paginas = [
-		{titulo:"Inicio",ref:"/"},
-		{titulo:"Catálogos",ref:"/wiki"},
-		{titulo:"Ayuda",ref:"/help"}
+		{titulo:"Inicio",ref:""},
+		{titulo:"Catálogos",ref:"wiki/"},
+		{titulo:"Ayuda",ref:"help/"}
 	];
 	let titulo = document.title;
 	let output = "";
 	paginas.forEach(pagina => {
+		if (titulo == pagina.titulo) {
+			href = href.replace(pagina.ref,"");
+			console.log(href);
+		}else console.log(href+"a");
+	});
+	paginas.forEach(pagina => {
 		if (titulo != pagina.titulo) {
-			output += "<a href=\""  + pagina.ref + "\"";
+			output += "<a href=\"" + href + pagina.ref + "\"";
 			if (pagina.titulo == "Ayuda") {
 				output += " target=\"_blank\"";
 			}
