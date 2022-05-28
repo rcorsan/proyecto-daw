@@ -10,7 +10,13 @@ $( document ).ready(function() {
 
 let titulo = document.title;
 let href = document.location.href;
-const images = [{autor:"lorc", title:"drink-me.png"}, {autor:"delapouite", title:"sword-brandish.png"}, {autor:"lorc", title:"spectre.png"}];
+const images = [
+	{autor:"lorc", title:"drink-me.png"}, 
+	{autor:"delapouite", title:"sword-brandish.png"}, 
+	{autor:"lorc", title:"spectre.png"}, 
+	{autor:"lorc", title:"tattered-banner.png"}, 
+	{autor:"delapouite", title:"crypt-entrance.png"}
+];
 let random = Math.floor(Math.random()*(images.length));
 let logo = images[random];
 
@@ -26,7 +32,7 @@ function setIcon(){
     link.rel = 'shortcut icon';
     link.href = iconpath;
 	document.getElementsByTagName('head')[0].appendChild(link);
-}
+}//función que establece el icono de la página
 
 function generarNav(){
 	const paginas = [
@@ -56,6 +62,6 @@ function generarNav(){
 
 function generarFooter(){
 	let output = "<p>Proyecto 2º de grado superior de Desarrollo de Aplicaciones Web (<i>Raquel Corporales Sánchez y Víctor Talavera Moreno</i>) IES Barajas</p>";
-	output += "<p>Imágenes provenientes de <a href='https://game-icons.net/about.html#authors' target='_blank>game-icons.net</a>.</p>";
+	output += "<p>Imágenes e iconos provenientes de <a href='https://game-icons.net/about.html#authors' target='_blank'>game-icons.net</a>.</p>";
 	$("#footer").html(output);
 }//función que genera el pie
