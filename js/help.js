@@ -1,6 +1,4 @@
 $( document ).ready(function() {
- 
-
 
 	$(".desplegable").click(function (e) { 
 		
@@ -10,15 +8,16 @@ $( document ).ready(function() {
 		$(panel).toggle(450);
 
 	});
+
 	generarBotones();
 
-	function generarBotones(){
-		let output = "";
-		ayudas.forEach(categoria => {
-			output += '<div class="caja" >'+categoria.titulo+'</div>'
-		});
-		$("#container").html(output);
-
-	};
-
 });
+
+function generarBotones(){
+	let output = "";
+	ayudas.forEach(categoria => {
+		output += '<div class="caja" >'+categoria.titulo+'</div>'
+	});
+	$("#container").html(output);
+
+};
