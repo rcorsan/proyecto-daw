@@ -89,6 +89,12 @@ function generarNav(){
 			output += ">" + pagina.titulo + "</a>";
 		}
 	});
+	if(true){
+		output += "<a class='rightNav' href=\"" + href + "login/" + "\"> Iniciar Sesión</a>";
+		output += "<a class='rightNav' href=\"" + href + "signup/" + "\"> Registrarse</a>";
+	}else {
+		output += "<a class='rightNav' href=\"" + href + "" + "\"> Cerrar Sesión</a>";
+	}
 	$("#topnav").html(output);
 }//función que genera la barra de navegacion
 

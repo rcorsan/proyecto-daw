@@ -1,23 +1,23 @@
 const equipo = [
     {
         "id" : 400,
-        "nombre" : "equipo 1",
-        "descripcion" : "desc",
+        "nombre" : "palo de madera",
+        "descripcion" : "Los niños juegan con esto.",
         "estadisticas" : {
-            "fuerza" : 1,
-            "magia" : 1,
+            "fuerza" : 2,
+            "magia" : 0,
             "defensa" : 0,
             "resistencia" : 0,
             "destreza" : 1,
             "suerte" : 0,
-            "vitalidad" : 5,
-            "espiritu" : 3
+            "vitalidad" : 0,
+            "espiritu" : 0
         },
-        "precio" : 23,
+        "precio" : 5,
         "clase" : "arma",
         "tipo" : "espada",
         "rareza" : 0,
-        "imagen": ""
+        "imagen": "delapouite/wood-stick.png"
     }, 
     {
         "id" : 401,
@@ -37,6 +37,6 @@ const equipo = [
         "clase" : "arma",
         "tipo" : "espada",
         "rareza" : 0,
-        "imagen": ""
+        "imagen": "lorc/wizard-staff.png"
     }  
 ];

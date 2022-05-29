@@ -5,14 +5,14 @@ const consumibles = [
         "descripcion" : "Pequeño vial rojo que conviene tener a mano.",
         "explicacion" : "Al consumirse restaura 20 puntos de salud.",
         "precio" : 10,
-        "imagen": ""
+        "imagen": "lorc/round-bottom-flask.png"
     },
     {
-        "id" : 300,
+        "id" : 301,
         "nombre" : "poción energética pequeña",
         "descripcion" : "Pequeño vial azul que conviene tener a mano.",
         "explicacion" : "Al consumirse restaura 20 puntos de espíritu.",
         "precio" : 10,
-        "imagen": ""
+        "imagen": "lorc/soap-experiment.png"
     }
 ];

@@ -25,12 +25,12 @@ const enemigos = [
         },
         "clase" : 0,
         "tipo" : "limo",
-        "imagen": ""
+        "imagen": "delapouite/slime.png"
     },
     {
         "id" : 201,
-        "nombre" : "gelatina",
-        "descripcion" : "Cuerpo gelatinoso frecuentemente hostil.",
+        "nombre" : "goblin",
+        "descripcion" : "Duende con mala leche.",
         "estadisticasMin" : {
             "fuerza" : 1,
             "magia" : 1,
@@ -52,7 +52,7 @@ const enemigos = [
             "espiritu" : 15
         },
         "clase" : 0,
-        "tipo" : "limo",
-        "imagen": ""
+        "tipo" : "humanoide",
+        "imagen": "delapouite/goblin-face.png"
     }
 ];
