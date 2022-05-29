@@ -7,21 +7,106 @@ $( document ).ready(function() {
 
 });
 
+async function getAllConsumables(){
+	let result;
+	try{
+		result = await $.ajax({
+			type: "GET",
+			url: "https://proyectodaw-api.herokuapp.com/consumables",
+			success: function (data) {
+				result = data;
+			},
+		});
+		return result;
+	} catch (error) {
+		console.error(error);
+	}	
+}
+
+async function getAllSkills(){
+	let result;
+	try{
+		result = await $.ajax({
+			type: "GET",
+			url: "https://proyectodaw-api.herokuapp.com/skills",
+			success: function (data) {
+				result = data;
+			},
+		});
+		return result;
+	} catch (error) {
+		console.error(error);
+	}	
+}
+
+async function getAllEnemies(){
+	let result;
+	try{
+		result = await $.ajax({
+			type: "GET",
+			url: "https://proyectodaw-api.herokuapp.com/enemies",
+			success: function (data) {
+				result = data;
+			},
+		});
+		return result;
+	} catch (error) {
+		console.error(error);
+	}	
+}
+
+async function getAllEquipments(){
+	let result;
+	try{
+		result = await $.ajax({
+			type: "GET",
+			url: "https://proyectodaw-api.herokuapp.com/equipments",
+			success: function (data) {
+				result = data;
+			},
+		});
+		return result;
+	} catch (error) {
+		console.error(error);
+	}	
+}
+
+let consumables;
+let skills;
+let enemies;
+let equipments;
+
+getAllConsumables().then((data)=>{
+	consumables=data;
+});
+
+getAllSkills().then((data)=>{
+	skills=data;
+});
+
+getAllEnemies().then((data)=>{
+	enemies=data;
+});
+
+getAllEquipments().then((data)=>{
+	equipments=data;
+});
+
 function generarBotones(id){
 	let elementos = [];
 	switch(id){
 		case "Enemigos":
-			elementos = enemigos;
+			elementos = enemies;
 			break;
 		case "Consumibles":
-			elementos = consumibles;
+			elementos = consumables;
 			break;
 		case "Equipo":
-			elementos = equipo;
+			elementos = equipments;
 			break;
 		default:
 		case "Habilidades":
-			elementos = habilidades;
+			elementos = skills;
 			break;
 	};
 	let output = "<div class=\"grid-container\">";
