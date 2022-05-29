@@ -36,6 +36,8 @@ async function getPrincipal(params){
 	}	
 }
 
+//funcion que llama a post
+
 
 
 let titulo = document.title;
