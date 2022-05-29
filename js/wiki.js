@@ -111,7 +111,9 @@ function generarBotones(id){
 	};
 	let output = "<div class=\"grid-container\">";
 	elementos.forEach(elemento => {
-		output += "<div class=\"caja\">" + elemento.nombre + "</div>";
+		let nombre = elemento.nombre;
+		nombre = nombre.charAt(0).toUpperCase() + nombre.slice(1);
+		output += "<div class=\"caja\">" + nombre + "</div>";
 	});
 	output += "</div>";
 	$("#" + id).html(output);

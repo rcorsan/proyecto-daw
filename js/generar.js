@@ -7,11 +7,11 @@ $( document ).ready(function() {
 		document.location.href = "https://rcorsan.github.io/proyecto-daw/";
 	});
 
-	/*let objeto = {"mm":"aaa"};
+	let objeto = {"mm":"aaa"};
 
 	getPrincipal(objeto).then((data) => {
 		console.info('Response:', data)
-	})*/
+	})
 	
 });
 
