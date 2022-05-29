@@ -11,9 +11,6 @@ $( document ).ready(function() {
 
 	console.log(getPrincipal(objeto));
 	let res=getPrincipal(objeto);
-	setTimeout(() => {
-		console.log(JSON.stringify(res));
-	}, 2000);
 
 	getPrincipal(objeto).then((data) => {
 		console.info('Response:', data)
@@ -25,15 +22,14 @@ async function getPrincipal(params){
 	let result;
 	try{
 		result = await $.ajax({
-			url: 'https://proyectodaw-api.herokuapp.com/',
-			type: 'post',
-			dataType: 'json',
-			contentType: 'application/json',
-			data: {mm:"aaa"},
-			success: function(data) {
-				console.log(data);
-			}
-		});	
+			type: "POST",
+			url: "https://proyectodaw-api.herokuapp.com/",
+			data: JSON.stringify(params),
+			success: function (data) {
+			   console.log(data);
+			   result = data;
+			},
+		  });
 		return result;
 	} catch (error) {
 		console.error(error);
