@@ -191,3 +191,11 @@ body{
     font-size: 30px;
 	cursor: pointer;
 }
+#alerta{
+	background-color:lightcoral;
+	height: 40px;
+	visibility: hidden;
+	text-align: center;
+	padding-top: 8px;
+
+}

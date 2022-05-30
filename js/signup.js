@@ -1,31 +1,52 @@
+$(document).ready(function () {
+  $("#submit").on("click", function (event) {
+    event.preventDefault();
+    let user = $("#user").val();
+    let password = $("#password").val();
+    let password2 = $("#password2").val();
+    let objeto = {
+      name: user,
+      password: password,
+    };
+    async function signup() {
+      let response = await postSignup(objeto).then((data) => data);
+      console.log(response);
+      if (response == "error") {
+        let error = "El usuario ya existe, inicia sesion";
+        $("#alerta").css("visibility","visible");
+        $("#alerta").html(error);
+        $("form")[0].reset();
+      } else {
+        sessionStorage.setItem("session", response);
+        $(location).attr('href','../');
+      }
+    }
+    if(password2!=password){
+      let error = "Las contraseñas no coinciden";
+      $("#alerta").css("visibility","visible");
+      $("#alerta").html(error);
+      $("form")[0].reset();
+    }else{
+      signup();
+    }
+    
+  });
+});
 
-let objeto = {
-    "name": "testUser3",
-    "password": "testUser3"
-};
-
-postSignup(objeto).then((data) => {
-    console.info(data);
-})
-
-
-
-
-
-async function postSignup(params){
-	let result;
-	try{
-		result = await $.ajax({
-			type: "POST",
-            contentType: "application/json",
-			url: "https://proyectodaw-api.herokuapp.com/signup",
-			data: JSON.stringify(params),
-			success: function (data) {
-                result = data;
-			},
-		});
-		return result;
-	} catch (error) {
-		console.error(error);
-	}	
+async function postSignup(params) {
+  let result;
+  try {
+    result = await $.ajax({
+      type: "POST",
+      contentType: "application/json",
+      url: "https://proyectodaw-api.herokuapp.com/signup",
+      data: JSON.stringify(params),
+      success: function (data) {
+        result = data;
+      },
+    });
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
 }
