@@ -9,7 +9,7 @@ $(document).ready(function () {
         };
         async function login() {
             let response = await postLogin(objeto).then((data) => data);
-            console.log(response);
+            //console.log(response);
             if (response == "error") {
                 let error = "Usuario o contraseña no coinciden";
                 $("#alerta").css("visibility","visible");

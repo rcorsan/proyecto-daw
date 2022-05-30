@@ -25,15 +25,16 @@ async function getAllHelps() {
 	}
 };
 let ayudas;
-getAllHelps().then((data) => {
-	ayudas = data;
-});
+
 
 
 function generarBotones() {
-	let output = "";
-	ayudas.forEach((categoria) => {
-		output += '<div class="caja" >' + categoria.titulo + "</div>";
+	getAllHelps().then((data) => {
+		ayudas = data;	
+		let output = "";
+		ayudas.forEach((categoria) => {
+			output += '<div class="caja" >' + categoria.titulo + "</div>";
+		});
+		$("#container").html(output);
 	});
-	$("#container").html(output);
 }

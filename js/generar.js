@@ -7,15 +7,15 @@ $( document ).ready(function() {
 		document.location.href = "https://rcorsan.github.io/proyecto-daw/";
 	});
 
-	let objeto = {"mm":"aaa"};
+	/*let objeto = {"mm":"aaa"};
 
 	getPrincipal(objeto).then((data) => {
 		console.info('Response:', data)
-	})
+	})*/
 	
 });
 
-async function getPrincipal(params){
+/*async function getPrincipal(params){
 	let result;
 	try{
 		result = await $.ajax({
@@ -31,7 +31,7 @@ async function getPrincipal(params){
 	} catch (error) {
 		console.error(error);
 	}	
-}
+}*/
 
 //funcion que llama a post
 

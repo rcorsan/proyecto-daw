@@ -12,7 +12,7 @@ $(document).ready(function () {
         };
         async function signup() {
             let response = await postSignup(objeto).then((data) => data);
-            console.log(response);
+            //console.log(response);
             if (response == "error") {
                 let error = "El usuario ya existe, inicia sesion";
                 $("#alerta").css("visibility", "visible");
@@ -29,6 +29,7 @@ $(document).ready(function () {
                 $(location).attr("href", "../");
             }
         }
+
         if (password2 != password) {
             let error = "Las contraseñas no coinciden";
             $("#alerta").css("visibility", "visible");
