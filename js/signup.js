@@ -18,8 +18,7 @@ $(document).ready(function () {
                 $("#alerta").css("visibility", "visible");
                 $("#alerta").html(error);
                 $("form")[0].reset();
-            }
-            if (response == "error2") {
+            }else if (response == "error2") {
                 let error = "Ya existe una cuenta con ese email";
                 $("#alerta").css("visibility", "visible");
                 $("#alerta").html(error);
