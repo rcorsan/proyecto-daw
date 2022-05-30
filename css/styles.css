@@ -190,7 +190,31 @@ body{
     line-height: 75px;
     font-size: 30px;
 	cursor: pointer;
+	transition: all 0.4s;
 }
+
+.caja:hover{
+	color: black;
+	background-color: var(--color-secundario);
+}
+
+.boton{
+    color: white;
+    background-color:var(--color-principal);
+    margin: 2px;
+    text-align: center;
+    line-height: 24px;
+    font-size: 16px;
+	cursor: pointer;
+	border: none;
+	transition: all 0.4s;
+}
+
+.boton:hover{
+	color: black;
+	background-color: var(--color-secundario);
+}
+
 #alerta{
 	background-color:lightcoral;
 	height: 40px;
