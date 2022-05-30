@@ -4,32 +4,39 @@ $(document).ready(function () {
     let user = $("#user").val();
     let password = $("#password").val();
     let password2 = $("#password2").val();
+    let email = $("#email").val();
     let objeto = {
       name: user,
       password: password,
+      email: email
     };
     async function signup() {
       let response = await postSignup(objeto).then((data) => data);
       console.log(response);
       if (response == "error") {
         let error = "El usuario ya existe, inicia sesion";
-        $("#alerta").css("visibility","visible");
+        $("#alerta").css("visibility", "visible");
+        $("#alerta").html(error);
+        $("form")[0].reset();
+      }
+      if (response == "error2") {
+        let error = "Ya existe una cuenta con ese email";
+        $("#alerta").css("visibility", "visible");
         $("#alerta").html(error);
         $("form")[0].reset();
       } else {
         sessionStorage.setItem("session", response);
-        $(location).attr('href','../');
+        $(location).attr("href", "../");
       }
     }
-    if(password2!=password){
+    if (password2 != password) {
       let error = "Las contraseñas no coinciden";
-      $("#alerta").css("visibility","visible");
+      $("#alerta").css("visibility", "visible");
       $("#alerta").html(error);
       $("form")[0].reset();
-    }else{
+    } else {
       signup();
     }
-    
   });
 });
 
