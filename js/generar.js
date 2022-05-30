@@ -23,10 +23,10 @@ async function getPrincipal(params){
 			url: "https://proyectodaw-api.herokuapp.com/",
 			data: JSON.stringify(params),
 			success: function (data) {
-			   console.log(data);
-			   result = data;
+				console.log(data);
+				result = data;
 			},
-		  });
+		});
 		return result;
 	} catch (error) {
 		console.error(error);
