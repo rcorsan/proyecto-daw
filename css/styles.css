@@ -215,6 +215,17 @@ body{
 	background-color: var(--color-secundario);
 }
 
+.elemento{
+	width: fit-content;
+	min-width: 500px;
+	margin: 0px auto;
+}
+
+.botonera{
+	width: fit-content;
+	margin: 0px auto;
+}
+
 #alerta{
 	background-color:lightcoral;
 	height: 40px;

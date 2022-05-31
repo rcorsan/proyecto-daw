@@ -147,14 +147,23 @@ function mostrarElemento(id){
 	let name = element.nombre;
 	name = name.charAt(0).toUpperCase() + name.slice(1);
 	
-	let output = "<img src=\"../assets/000000/1x1/" + element.imagen + "\" alt=\"" + element.imagen + "\" width=\"96px\"/>";
+	let output = "<div class='elemento'>";
+	output += "<img src=\"../assets/000000/1x1/" + element.imagen + "\" alt=\"" + element.imagen + "\" width=\"96px\"/>";
 	output += "<h1>" + name + "</h1>";
 	output += "<h4>" + element.descripcion + "</h4>";
 	if(element.explicacion) output += "<p>" + element.explicacion + "</p>";
 	if(element.coste) output += "<p>Coste: " + element.coste + " puntos de espíritu</p>";
 	if(element.precio) output += "<p>Precio: " + element.precio + " de oro</p>";
 
-	output += "<button class='boton' id='prev'>ANTERIOR</button> <button class='boton' id='back'>VOLVER</button> <button class='boton' id='next'>SIGUIENTE</button>"
+	if(type=="Equipo"){
+		output += "<h5>Clase: " + element.clase + " <br/>Tipo: " + element.tipo + "</h5>";
+	}
+
+	output +="<div class='grafico'></div>"
+
+	output += "<div class='botonera'><button class='boton' id='prev'>ANTERIOR</button> <button class='boton' id='back'>VOLVER</button> <button class='boton' id='next'>SIGUIENTE</button></div>"
+
+	output += "</div>";
 
 	$("#" + type).html(output);
 
