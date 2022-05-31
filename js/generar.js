@@ -71,7 +71,7 @@ function generarNav(){
 	];
 	
 	let output = "<img id=\"navLogo\" src=\"" + iconpath;
-	output += "\" width=\"48px\" alt=\"logo\" >";
+	output += "\" width=\"48px\" alt=\"logo\" />";
 	paginas.forEach(pagina => {
 		if (titulo == pagina.titulo) {
 			href = href.replace(pagina.ref,"");
@@ -86,8 +86,17 @@ function generarNav(){
 			output += ">" + pagina.titulo + "</a>";
 		}
 	});
-	if(false){
-		output += "<a class='rightNav' href=\"" + href + "" + "\"> Cerrar Sesión</a>";
+	if(sessionCompr()){
+		let session = JSON.parse(sessionStorage.getItem('session'));
+		let imagepath = "";
+		if(titulo != "Inicio"){
+			imagepath += ".";
+		}
+		imagepath += "./assets/000000/1x1/";
+		
+		output += "<img id=\"navImg\" class='rightNav' src=\"" + imagepath + session.image + "\" width=\"48px\" alt=\"profile image\" /> ";
+		output += "<a class='rightNav' href=\"" + href + "" + "\"> " + session.name + "</a>";
+		output += "<a class='rightNav' href=\"" + href + "" + "\" onClick=\"sessionStorage.removeItem('session')\"> Cerrar Sesión</a>";
 	}else {
 		output += "<a class='rightNav' href=\"" + href + "login/" + "\"> Iniciar Sesión</a>";
 		output += "<a class='rightNav' href=\"" + href + "signup/" + "\"> Registrarse</a>";
@@ -100,3 +109,19 @@ function generarFooter(){
 	output += "<p>Imágenes e iconos provenientes de <a href='https://game-icons.net/about.html#authors' target='_blank'>game-icons.net</a>.</p>";
 	$("#footer").html(output);
 }//función que genera el pie
+
+function sessionCompr(){
+	let session = false;
+
+    if(sessionStorage){
+        if(sessionStorage.getItem('session') && sessionStorage.getItem('session').length>0){
+            session = true;
+        }else{
+            session = false;
+        }
+    }else{
+		session = false;
+    }
+
+	return session;
+}

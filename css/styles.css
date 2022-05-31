@@ -51,6 +51,17 @@ body{
 	background-color: var(--color-secundario);
 }
 
+#navImg{
+	float: right;
+	transition: all 0.4s;
+	padding: 2px;
+}
+
+#navImg:hover{
+	cursor: pointer;
+	background-color: var(--color-secundario);
+}
+
 .topnav a {
 	float: left;
 	color: white;

@@ -167,6 +167,14 @@ function mostrarElemento(id){
 
 	$("#" + type).html(output);
 
+	if(type != "Consumibles") {
+		if (type != "Enemigos") {
+			generarGrafico(element);
+		} else {
+			generarGraficoEnemigo(element);
+		}
+	}
+
 	$("#back").click(function (e) {
 		e.preventDefault();
 		generarBotones(type);
@@ -197,4 +205,12 @@ function mostrarElemento(id){
 		generarBotones(type);
 		(next == true)?mostrarElemento(newId):mostrarElemento(elementos[0].id);
 	});
+}
+
+function generarGrafico(element){
+	console.log(element);
+}
+
+function generarGraficoEnemigo(element){
+	console.log("e: " + element.nombre);
 }
