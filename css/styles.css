@@ -245,3 +245,16 @@ body{
 	padding-top: 8px;
 
 }
+.contenido{
+	display: none;
+	background-color: aliceblue;
+	border: solid 5px;
+	border-radius: 40px;
+	border-color: blue;
+	text-align: center;
+	padding: 20px;
+	margin-top: 50px;
+}
+.contenido>h1{
+	margin: 0;
+}
