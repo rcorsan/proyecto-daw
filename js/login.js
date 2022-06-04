@@ -16,7 +16,7 @@ $(document).ready(function () {
                 $("#alerta").html(error);
                 $("form")[0].reset();
             } else {
-                sessionStorage.setItem("session", response);
+                localStorage.setItem("session", response);
                 $(location).attr('href','../');
             }
         }

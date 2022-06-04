@@ -88,7 +88,7 @@ function generarNav(){
 		}
 	});
 	if(sessionCompr()){
-		let session = JSON.parse(sessionStorage.getItem('session'));
+		let session = JSON.parse(localStorage.getItem('session'));
 		let imagepath = "";
 		if(titulo != "Inicio"){
 			imagepath += ".";
@@ -97,7 +97,7 @@ function generarNav(){
 		
 		output += "<img id=\"navImg\" class='rightNav' src=\"" + imagepath + session.image + "\" width=\"48px\" alt=\"profile image\" /> ";
 		output += "<div class='rightNav' href=\"" + href + "" + "\"> " + session.name + "</div>";
-		output += "<a class='rightNav' href=\"" + href + "" + "\" onClick=\"sessionStorage.removeItem('session')\"> Cerrar Sesión</a>";
+		output += "<a class='rightNav' href=\"" + href + "" + "\" onClick=\"localStorage.removeItem('session')\"> Cerrar Sesión</a>";
 	}else {
 		output += "<a class='rightNav' href=\"" + href + "login/" + "\"> Iniciar Sesión</a>";
 		output += "<a class='rightNav' href=\"" + href + "signup/" + "\"> Registrarse</a>";
@@ -114,8 +114,8 @@ function generarFooter(){
 function sessionCompr(){
 	let session = false;
 
-    if(sessionStorage){
-        if(sessionStorage.getItem('session') && sessionStorage.getItem('session').length>0){
+    if(localStorage){
+        if(localStorage.getItem('session') && localStorage.getItem('session').length>0){
             session = true;
         }else{
             session = false;
