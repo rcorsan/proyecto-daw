@@ -27,11 +27,12 @@ function generarRanking() {
             return (textA > textB) ? -1 : (textA < textB) ? 1 : 0;
         });
 		let output = "<table>";
-        let imagepath = "../assets/000000/1x1/";
-        output +='<thead><tr><th>User</th><th>Puntuación máxima</th></tr></thead><tbody>'; 
+        output +="<thead><tr><th>Posición</th><th>User</th><th>Puntuación máxima</th></tr></thead><tbody>"; 
+		let posicion=0;
 		users.forEach((user) => {
+			posicion++;
 			console.log(user);
-			output += "<tr><th>"+user.name+"</th><th>"+user.maxScore+"</th></tr>";
+			output += "<tr><th>"+posicion+"</th><th>"+user.name+"</th><th>"+user.maxScore+"</th></tr>";
 		});
         output += "</tbody></table>";
 		$("#ranking").html(output);
