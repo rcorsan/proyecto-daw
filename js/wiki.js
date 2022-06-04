@@ -267,7 +267,7 @@ function generarGrafico(element){
 		datasets: [{
 			label: label,
 			data: [datos.vitalidad, datos.fuerza, datos.defensa, datos.destreza, datos.espiritu, datos.suerte, datos.resistencia, datos.magia],
-			fill: true,
+			fill: 'start',
 			backgroundColor: 'rgba(112, 147, 211, 0.3)',
 			borderColor: 'rgb(7, 2, 255)',
 			pointBackgroundColor: 'rgb(7, 2, 255)',
@@ -297,7 +297,7 @@ function generarGrafico(element){
 					angleLines: {
 						display: true
 					},
-					suggestedMin: (datos.vitalidad == 0 || datos.fuerza == 0 || datos.defensa == 0 || datos.destreza == 0 || datos.espiritu == 0 || datos.suerte == 0 || datos.resistencia == 0 || datos.magia == 0)?(-1):(0)
+					suggestedMin: -1
 				}
 			}
 		},
@@ -319,8 +319,73 @@ function generarGrafico(element){
 }
 
 function generarGraficoEnemigo(element){
-	console.log("e: " + element.nombre);
-	console.log(element);
+	let max = element.estadisticasMax;
+	let min = element.estadisticasMin;
+
+	const data = {
+		labels: [
+			'VITALIDAD',
+			'FUERZA',
+			'DEFENSA',
+			'DESTREZA',
+			'ESPIRITU',
+			'SUERTE',
+			'RESISTENCIA',
+			'MAGIA'
+		],
+		datasets: [{
+			label: 'ESTADISTICAS MINIMAS',
+			data: [min.vitalidad, min.fuerza, min.defensa, min.destreza, min.espiritu, min.suerte, min.resistencia, min.magia],
+			fill: 'start',
+			backgroundColor: 'rgba(112, 147, 211, 0.3)',
+			borderColor: 'rgb(7, 2, 255)',
+			pointBackgroundColor: 'rgb(7, 2, 255)',
+			pointBorderColor: '#fff',
+			pointHoverBackgroundColor: '#fff',
+			pointHoverBorderColor: 'rgb(7, 2, 255)'
+		},{
+			label: 'ESTADISTICAS MAXIMAS',
+			data: [max.vitalidad, max.fuerza, max.defensa, max.destreza, max.espiritu, max.suerte, max.resistencia, max.magia],
+			fill: '-1',
+			backgroundColor: 'rgba(208, 106, 255, 0.3)',
+			borderColor: 'rgb(188, 86, 235)',
+			pointBackgroundColor: 'rgb(188, 86, 235)',
+			pointBorderColor: '#fff',
+			pointHoverBackgroundColor: '#fff',
+			pointHoverBorderColor: 'rgb(188, 86, 235)'
+		}]
+	};
+
+	const config = {
+		type: 'radar',
+		data: data,
+		options: {
+			elements: {
+				line: {
+					borderWidth: 3
+				}
+			},
+			scales: {
+				r: {
+					ticks:{
+						stepSize: 1
+					},
+					grid: {
+						display: true
+					},
+					angleLines: {
+						display: true
+					},
+					suggestedMin: -1
+				}
+			}
+		},
+	};
+
+	const graficoEn = new Chart(
+		$(".graficoEn"),
+		config
+	);
 }
 
 function capitalise(texto){
