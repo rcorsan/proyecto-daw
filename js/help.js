@@ -37,6 +37,9 @@ function generarBotones() {
 			console.log(categoria);
 			output += '<div class="caja" id='+categoria.titulo.replace(/ /g, "")+ '>' + categoria.titulo + "</div>";
 		});
+		$("#container").css("display","");
+		$(".desplegable").css("display","");
+		$("#contenido").css("display","none");
 		$("#container").html(output);
 		
 	});
@@ -54,11 +57,16 @@ function mostrarContenido(id){
 					output+="<h1>"+categoria.contenido[i].subtitulo.charAt(0).toUpperCase()+categoria.contenido[i].subtitulo.slice(1)+"</h1>";
 					output+="<p>"+categoria.contenido[i].explicacion.charAt(0).toUpperCase()+categoria.contenido[i].explicacion.slice(1)+"</p>";
 				}
-				output += "<div class='botonera'><button class='boton' id='prev'>ANTERIOR</button> <button class='boton' id='back'>VOLVER</button> <button class='boton' id='next'>SIGUIENTE</button></div>";
+				output += "<div class='botonera'><button class='boton' id='back'>VOLVER</button></div>";
 				
 			}
 		});
 		$("#contenido").html(output);
+
+		$("#back").click(function (e) {
+			location.reload();
+			generarBotones();
+		});
 	});
 
 }
@@ -80,3 +88,4 @@ function abrirAyuda(){
 
 	});
 };
+
