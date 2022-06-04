@@ -226,6 +226,8 @@ div.grafico{
 }
 
 .boton{
+	box-shadow: 1px 1px 5px black;
+	border-radius: 5px;
     color: white;
     background-color:var(--color-principal);
     margin: 2px;
@@ -238,6 +240,8 @@ div.grafico{
 }
 
 .boton:hover{
+	outline: 10px solid var(--color-secundario);
+	outline-offset: -5px;
 	color: black;
 	background-color: var(--color-secundario);
 }
@@ -274,7 +278,7 @@ div.grafico{
 	border-color: var(--color-principal);
 	text-align: center;
 	padding: 20px;
-	margin-top: 50px;
+	margin: 70px 40px 50px 40px;
 }
 .contenido>h1{
 	margin: 0;
@@ -296,15 +300,25 @@ div.grafico{
 	outline:10px solid violet;
 	outline-offset: 40px;	
 }
-.ranking>table,th,tr{
+.ranking table,th,tr{
 	border: 1px solid;
 	border-color: rgb(145, 82, 248);
 	border-collapse: collapse;
 	padding: 20px;
 	width: 30%;
 }
-.ranking>table>thead{
+.ranking table thead{
 	color: white;
 	background-color:var(--color-principal);
 	border-bottom: 5px solid rgb(145, 82, 248);
+}
+.ranking table tbody tr:nth-child(1){
+	background-color: rgb(248, 235, 158);
+}
+.ranking table tbody tr:nth-child(2){
+	background-color: rgb(206, 206, 206)
+}
+.ranking table tbody tr:nth-child(3){
+	background-color: #ebd7b8;
+
 }
