@@ -147,6 +147,7 @@ div.grafico{
 	cursor: pointer;
 	padding: 18px;
 	width: 50%;
+	min-width: 850px;
 	text-align:center;
 	border: none;
 	outline: none;
@@ -161,6 +162,8 @@ div.grafico{
 
 
 .panel {
+	width: 50%;
+	min-width: 850px;
 	padding: 0 18px;
 	background-color: white;
 	display: none;
