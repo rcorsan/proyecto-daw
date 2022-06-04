@@ -67,6 +67,7 @@ function generarNav(){
 	const paginas = [
 		{titulo:"Inicio",ref:""},
 		{titulo:"Catálogos",ref:"wiki/"},
+		{titulo:"Ranking",ref:"ranking/"},
 		{titulo:"Ayuda",ref:"help/"}
 	];
 	
@@ -95,7 +96,7 @@ function generarNav(){
 		imagepath += "./assets/000000/1x1/";
 		
 		output += "<img id=\"navImg\" class='rightNav' src=\"" + imagepath + session.image + "\" width=\"48px\" alt=\"profile image\" /> ";
-		output += "<a class='rightNav' href=\"" + href + "" + "\"> " + session.name + "</a>";
+		output += "<div class='rightNav' href=\"" + href + "" + "\"> " + session.name + "</div>";
 		output += "<a class='rightNav' href=\"" + href + "" + "\" onClick=\"sessionStorage.removeItem('session')\"> Cerrar Sesión</a>";
 	}else {
 		output += "<a class='rightNav' href=\"" + href + "login/" + "\"> Iniciar Sesión</a>";
