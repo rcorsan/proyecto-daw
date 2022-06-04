@@ -143,30 +143,30 @@ function mostrarElemento(id){
 			element=elemento;
 		}
 	});
-
-	let name = element.nombre;
-	name = name.charAt(0).toUpperCase() + name.slice(1);
 	
 	let output = "<div class='elemento'>";
 	output += "<div style='display: flex; justify-content:flex-start; gap: 20px'><img src=\"../assets/000000/1x1/" + element.imagen + "\" alt=\"" + element.imagen + "\" width=\"96px\"/>";
-	output += "<div><h1>" + name + "</h1>";
+	output += "<div><h1>" + capitalise(element.nombre) + "</h1>";
 	output += "<h4>" + element.descripcion + "</h4></div></div>";
 	if(element.explicacion) output += "<p>" + element.explicacion + "</p>";
 	//if(element.coste) output += "<h5>Coste: " + element.coste + " puntos de espíritu</h5>";
 	if(element.precio) output += "<h5>Precio: " + element.precio + " de oro</h5>";
 
 	if(type=="Equipo" || type=="Enemigos"){
-		output += "<h5>Clase: " + element.clase + " <br/>Tipo: " + element.tipo;
+		output += "<h5>";
+		let clase = element.clase;
 		if(type=="Equipo") { 
-			output += " <br/>Rareza: " + element.rareza;
+			output += "Rareza: " + element.rareza +" <br/>";
+			clase = capitalise(clase);
 		}
+		output += "Clase: " + clase + " <br/>Tipo: " + capitalise(element.tipo);
 		output += "</h5>";
 	}
 
 	switch (type) {
 		case "Habilidades":
 			output +="<div class='grafico'><canvas class='graficoHab'></canvas></div>";
-			output +="<h5>Nivel: " + element.requisitos.nivel + " <br/>Equipo: " + element.requisitos.equipo + " <br/>Coste: " + element.coste + " puntos de espíritu</h5>"
+			output +="<h5>Nivel: " + element.requisitos.nivel + " <br/>Equipo: " + capitalise(element.requisitos.equipo) + " <br/>Coste: " + element.coste + " puntos de espíritu</h5>"
 			break;
 
 		case "Equipo":
@@ -196,48 +196,37 @@ function mostrarElemento(id){
 	}
 
 	$("#back").click(function (e) {
-		back(e);
-	});
-
-	function back(e){
 		e.preventDefault();
 		generarBotones(type);
-	}
-	
-	$("#prev").click(function (e) {
-		prev(e);
 	});
 
-	function prev(e) {
+	$("#prev").click(function (e) {
 		e.preventDefault();
-		let newId = parseInt(id)-1;
+		let newId;
 		let prev = false;
 		elementos.forEach(elemento => {
-			if(elemento.id == newId){
+			if(elemento.id < parseInt(id)){
 				prev=true;
+				newId=elemento.id;
 			}
 		});
 		generarBotones(type);
 		(prev == true)?mostrarElemento(newId):mostrarElemento(elementos[elementos.length-1].id);
-	}
-
-	$("#next").click(function (e) {
-		next(e);
 	});
 
-		function next(e) {
+	$("#next").click(function (e) {
 		e.preventDefault();
-		let newId = parseInt(id)+1;
+		let newId;
 		let next = false;
 		elementos.forEach(elemento => {
-			if(elemento.id == newId){
+			if(elemento.id > parseInt(id) && !next){
 				next=true;
+				newId=elemento.id;
 			}
 		});
 		generarBotones(type);
 		(next == true)?mostrarElemento(newId):mostrarElemento(elementos[0].id);
-	}
-
+	});
 }
 
 function generarGrafico(element){
@@ -279,7 +268,7 @@ function generarGrafico(element){
 			label: label,
 			data: [datos.vitalidad, datos.fuerza, datos.defensa, datos.destreza, datos.espiritu, datos.suerte, datos.resistencia, datos.magia],
 			fill: true,
-			backgroundColor: 'rgba(112, 147, 211, 0.2)',
+			backgroundColor: 'rgba(112, 147, 211, 0.3)',
 			borderColor: 'rgb(7, 2, 255)',
 			pointBackgroundColor: 'rgb(7, 2, 255)',
 			pointBorderColor: '#fff',
@@ -308,7 +297,7 @@ function generarGrafico(element){
 					angleLines: {
 						display: true
 					},
-					suggestedMin: -1
+					suggestedMin: (datos.vitalidad == 0 || datos.fuerza == 0 || datos.defensa == 0 || datos.destreza == 0 || datos.espiritu == 0 || datos.suerte == 0 || datos.resistencia == 0 || datos.magia == 0)?(-1):(0)
 				}
 			}
 		},
@@ -332,4 +321,10 @@ function generarGrafico(element){
 function generarGraficoEnemigo(element){
 	console.log("e: " + element.nombre);
 	console.log(element);
+}
+
+function capitalise(texto){
+	let aux = texto;
+	aux = aux.charAt(0).toUpperCase() + aux.slice(1);
+	return aux;
 }

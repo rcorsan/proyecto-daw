@@ -3,6 +3,8 @@
 	--color-principal: rgb(7, 2, 255);
 	--color-secundario: rgb(112, 147, 211);
 	--color-contraste: rgb(188, 86, 235);
+	--color-luminoso: rgb(240, 248, 255);
+	--color-alerta: rgb(240, 128, 128);
 }
 
 /*Body*/
@@ -94,7 +96,7 @@ body{
 /* Tabs*/
 .tab {
 	overflow: hidden;
-	border: 1px solid var(--color-principal);
+	border: none;
 	background-color: var(--color-secundario);
 }
 			
@@ -113,14 +115,14 @@ body{
 			
 
 .tab button:hover {
-	background-color: var(--color-principal);
-	color: white;
+	background-color: var(--color-contraste);
+	color: black;
 }
 			
 
 .tab button.active {
-	background-color: var(--color-contraste);
-	color: black;
+	background-color: var(--color-principal);
+	color: white;
 }
 			
 /* ContenidoTabs */
@@ -128,7 +130,7 @@ body{
 .tabcontent {
 	display: none;
 	padding: 6px 12px;
-	border: 1px solid var(--color-principal);
+	border: none;
 	border-top: none;
 }
 
@@ -243,7 +245,12 @@ div.grafico{
 .elemento{
 	width: fit-content;
 	min-width: 500px;
-	margin: 0px auto;
+	margin: 10px auto;
+	background-color: var(--color-luminoso);
+	border: solid 5px;
+	border-radius: 40px;
+	border-color: var(--color-principal);
+	padding: 5px 15px;
 }
 
 .botonera{
@@ -252,7 +259,7 @@ div.grafico{
 }
 
 #alerta{
-	background-color:lightcoral;
+	background-color: var(--color-alerta);
 	height: 40px;
 	visibility: hidden;
 	text-align: center;
@@ -261,7 +268,7 @@ div.grafico{
 }
 .contenido{
 	display: none;
-	background-color: aliceblue;
+	background-color: var(--color-luminoso);
 	border: solid 5px;
 	border-radius: 40px;
 	border-color: var(--color-principal);
