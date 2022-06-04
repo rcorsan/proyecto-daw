@@ -93,7 +93,7 @@ function generarNav(){
 		if(titulo != "Inicio"){
 			imagepath += ".";
 		}
-		imagepath += "./assets/000000/1x1/";
+		imagepath += "../assets/000000/1x1/";
 		
 		output += "<img id=\"navImg\" class='rightNav' src=\"" + imagepath + session.image + "\" width=\"48px\" alt=\"profile image\" /> ";
 		output += "<div class='rightNav' href=\"" + href + "" + "\"> " + session.name + "</div>";

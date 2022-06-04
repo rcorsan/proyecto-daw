@@ -259,11 +259,28 @@ body{
 	background-color: aliceblue;
 	border: solid 5px;
 	border-radius: 40px;
-	border-color: blue;
+	border-color: var(--color-principal);
 	text-align: center;
 	padding: 20px;
 	margin-top: 50px;
 }
 .contenido>h1{
 	margin: 0;
+}
+.ranking{
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	margin-top: 10%;
+}
+.ranking>table,th,tr{
+	border: 1px solid;
+	border-color: gray;
+	border-collapse: collapse;
+	width: 50%;
+	padding: 12px 15px;
+}
+.ranking>table>thead{
+	color: white;
+	background-color:var(--color-principal);
 }
