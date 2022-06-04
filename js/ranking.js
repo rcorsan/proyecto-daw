@@ -1,5 +1,6 @@
 $(document).ready(function () {
 	generarRanking();
+	generarcss();
 });
 
 async function getAllUsers() {
@@ -32,7 +33,7 @@ function generarRanking() {
 		users.forEach((user) => {
 			posicion++;
 			console.log(user);
-			output += "<tr><th>"+posicion+"</th><th>"+user.name+"</th><th>"+user.maxScore+"</th></tr>";
+			output += "<tr><th>"+posicion+"</th><th>"+user.name.toUpperCase()+"</th><th>"+user.maxScore+"</th></tr>";
 		});
         output += "</tbody></table>";
 		$("#ranking").html(output);

@@ -273,16 +273,26 @@ body{
 	align-content: center;
 	margin-top: 10%;
 }
+.ranking>table{ 
+	box-shadow: 10px 10px 10px gray;
+	outline:10px solid blue;
+	outline-offset: 10px;
+	transition: 0.5s all;
+}
+.ranking>table:hover{ 
+	transition: 0.5s all;
+	outline:10px solid violet;
+	outline-offset: 40px;	
+}
 .ranking>table,th,tr{
-	box-shadow: 50px;
 	border: 1px solid;
-	border-color: gray;
+	border-color: rgb(145, 82, 248);
 	border-collapse: collapse;
-	padding: 20px 40px;
-	
+	padding: 20px;
 	width: 30%;
 }
 .ranking>table>thead{
 	color: white;
 	background-color:var(--color-principal);
+	border-bottom: 5px solid rgb(145, 82, 248);
 }
