@@ -148,18 +148,38 @@ function mostrarElemento(id){
 	name = name.charAt(0).toUpperCase() + name.slice(1);
 	
 	let output = "<div class='elemento'>";
-	output += "<img src=\"../assets/000000/1x1/" + element.imagen + "\" alt=\"" + element.imagen + "\" width=\"96px\"/>";
-	output += "<h1>" + name + "</h1>";
-	output += "<h4>" + element.descripcion + "</h4>";
+	output += "<div style='display: flex; justify-content:flex-start; gap: 20px'><img src=\"../assets/000000/1x1/" + element.imagen + "\" alt=\"" + element.imagen + "\" width=\"96px\"/>";
+	output += "<div><h1>" + name + "</h1>";
+	output += "<h4>" + element.descripcion + "</h4></div></div>";
 	if(element.explicacion) output += "<p>" + element.explicacion + "</p>";
-	if(element.coste) output += "<p>Coste: " + element.coste + " puntos de espíritu</p>";
-	if(element.precio) output += "<p>Precio: " + element.precio + " de oro</p>";
+	//if(element.coste) output += "<h5>Coste: " + element.coste + " puntos de espíritu</h5>";
+	if(element.precio) output += "<h5>Precio: " + element.precio + " de oro</h5>";
 
-	if(type=="Equipo"){
-		output += "<h5>Clase: " + element.clase + " <br/>Tipo: " + element.tipo + "</h5>";
+	if(type=="Equipo" || type=="Enemigos"){
+		output += "<h5>Clase: " + element.clase + " <br/>Tipo: " + element.tipo;
+		if(type=="Equipo") { 
+			output += " <br/>Rareza: " + element.rareza;
+		}
+		output += "</h5>";
 	}
 
-	output +="<div class='grafico'></div>"
+	switch (type) {
+		case "Habilidades":
+			output +="<div class='grafico'><canvas class='graficoHab'></canvas></div>";
+			output +="<h5>Nivel: " + element.requisitos.nivel + " <br/>Equipo: " + element.requisitos.equipo + " <br/>Coste: " + element.coste + " puntos de espíritu</h5>"
+			break;
+
+		case "Equipo":
+			output +="<div class='grafico'><canvas class='graficoEq'></canvas></div>";
+			break;
+
+		case "Enemigos":
+			output +="<div class='grafico'><canvas class='graficoEn'></canvas></div>";
+			break;
+	
+		default:
+			break;
+	}
 
 	output += "<div class='botonera'><button class='boton' id='prev'>ANTERIOR</button> <button class='boton' id='back'>VOLVER</button> <button class='boton' id='next'>SIGUIENTE</button></div>"
 
@@ -176,11 +196,19 @@ function mostrarElemento(id){
 	}
 
 	$("#back").click(function (e) {
+		back(e);
+	});
+
+	function back(e){
 		e.preventDefault();
 		generarBotones(type);
-	});
+	}
 	
 	$("#prev").click(function (e) {
+		prev(e);
+	});
+
+	function prev(e) {
 		e.preventDefault();
 		let newId = parseInt(id)-1;
 		let prev = false;
@@ -191,9 +219,13 @@ function mostrarElemento(id){
 		});
 		generarBotones(type);
 		(prev == true)?mostrarElemento(newId):mostrarElemento(elementos[elementos.length-1].id);
-	});
+	}
 
 	$("#next").click(function (e) {
+		next(e);
+	});
+
+		function next(e) {
 		e.preventDefault();
 		let newId = parseInt(id)+1;
 		let next = false;
@@ -204,13 +236,100 @@ function mostrarElemento(id){
 		});
 		generarBotones(type);
 		(next == true)?mostrarElemento(newId):mostrarElemento(elementos[0].id);
-	});
+	}
+
 }
 
 function generarGrafico(element){
-	console.log(element);
+	let datos = {};
+	let label;
+	let type;
+	if (element.requisitos){
+		datos = element.requisitos	
+		label="REQUISITOS";
+		type="Habilidades";
+	}else{
+		datos = element.estadisticas;
+		label="ESTADISTICAS";
+		type="Equipo";
+	}
+	datos = {
+		"fuerza": datos.fuerza,
+		"defensa": datos.defensa,
+		"magia": datos.magia,
+		"resistencia": datos.resistencia,
+		"destreza": datos.destreza,
+		"suerte": datos.suerte,
+		"vitalidad": datos.vitalidad,
+		"espiritu": datos.espiritu,
+	};
+
+	const data = {
+		labels: [
+			'VITALIDAD',
+			'FUERZA',
+			'DEFENSA',
+			'DESTREZA',
+			'ESPIRITU',
+			'SUERTE',
+			'RESISTENCIA',
+			'MAGIA'
+		],
+		datasets: [{
+			label: label,
+			data: [datos.vitalidad, datos.fuerza, datos.defensa, datos.destreza, datos.espiritu, datos.suerte, datos.resistencia, datos.magia],
+			fill: true,
+			backgroundColor: 'rgba(112, 147, 211, 0.2)',
+			borderColor: 'rgb(7, 2, 255)',
+			pointBackgroundColor: 'rgb(7, 2, 255)',
+			pointBorderColor: '#fff',
+			pointHoverBackgroundColor: '#fff',
+			pointHoverBorderColor: 'rgb(7, 2, 255)'
+		}]
+	};
+
+	const config = {
+		type: 'radar',
+		data: data,
+		options: {
+			elements: {
+				line: {
+					borderWidth: 3
+				}
+			},
+			scales: {
+				r: {
+					ticks:{
+						stepSize: 1
+					},
+					grid: {
+						display: true
+					},
+					angleLines: {
+						display: true
+					},
+					suggestedMin: -1
+				}
+			}
+		},
+	};
+
+	if(type=="Habilidades"){
+		const graficoHab = new Chart(
+			$(".graficoHab"),
+			config
+		);
+	}
+
+	if(type=="Equipo"){
+		const graficoEq = new Chart(
+			$(".graficoEq"),
+			config
+		);
+	}
 }
 
 function generarGraficoEnemigo(element){
 	console.log("e: " + element.nombre);
+	console.log(element);
 }

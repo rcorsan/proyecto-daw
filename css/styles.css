@@ -132,6 +132,11 @@ body{
 	border-top: none;
 }
 
+div.grafico{
+	max-width: 500px;
+	padding: 0px 50px;
+}
+
 /*Desplegable ayuda*/
 
 .desplegable {
