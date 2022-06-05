@@ -1,6 +1,5 @@
 $(document).ready(function () {
 	generarRanking();
-	generarcss();
 });
 
 async function getAllUsers() {
