@@ -287,7 +287,7 @@ div.grafico{
 	display: flex;
 	justify-content: center;
 	align-content: center;
-	margin-top: 10%;
+	margin: 10% 0 35px;
 }
 .ranking>table{ 
 	box-shadow: 10px 10px 10px gray;
@@ -312,13 +312,13 @@ div.grafico{
 	background-color:var(--color-principal);
 	border-bottom: 5px solid rgb(145, 82, 248);
 }
-.ranking table tbody tr:nth-child(1){
+.oro{
 	background-color: rgb(248, 235, 158);
 }
-.ranking table tbody tr:nth-child(2){
+.plata{
 	background-color: rgb(206, 206, 206)
 }
-.ranking table tbody tr:nth-child(3){
+.bronce{
 	background-color: #ebd7b8;
 
 }
