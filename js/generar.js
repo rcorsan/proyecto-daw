@@ -97,12 +97,18 @@ function generarNav(){
 		
 		output += "<img id=\"navImg\" class='rightNav' src=\"" + imagepath + session.image + "\" width=\"48px\" alt=\"profile image\" /> ";
 		output += "<div class='rightNav' href=\"" + href + "" + "\"> " + session.name + "</div>";
-		output += "<a class='rightNav' href=\"" + href + "" + "\" onClick=\"localStorage.removeItem('session')\"> Cerrar Sesión</a>";
+		output += "<a class='rightNav' id='cerrarSesion' href=\"" + href + "\"> Cerrar Sesión</a>";
 	}else {
 		output += "<a class='rightNav' href=\"" + href + "login/" + "\"> Iniciar Sesión</a>";
 		output += "<a class='rightNav' href=\"" + href + "signup/" + "\"> Registrarse</a>";
 	}
 	$("#topnav").html(output);
+
+	$('#cerrarSesion').click(function (e) { 
+		e.preventDefault();
+		let session = JSON.parse(localStorage.getItem('session'));
+		cerrarSesion(session);
+	});
 }//función que genera la barra de navegacion
 
 function generarFooter(){
@@ -125,4 +131,28 @@ function sessionCompr(){
     }
 
 	return session;
+}
+
+function cerrarSesion(session) {
+	updateSession(session).then((data)=>{
+		localStorage.removeItem('session');
+	});
+}
+
+async function updateSession(params) {
+	let result;
+	try {
+        result = await $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "https://proyectodaw-api.herokuapp.com/session",
+            data: JSON.stringify(params),
+            success: function (data) {
+                result = data;
+            },
+        });
+        return result;
+    } catch (error) {
+        console.error(error);
+    }
 }
