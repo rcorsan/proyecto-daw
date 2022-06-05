@@ -102,6 +102,14 @@ body{
 	height: 775px;
 }
 
+.centered-title{
+	text-align: center;
+	color: var(--color-luminoso);
+	-webkit-text-stroke-width: 2px;
+  	-webkit-text-stroke-color: var(--color-principal);
+	text-shadow: -3px 2px 2px var(--color-secundario), 1.5px -1px 2px var(--color-alerta);
+}
+
 /* Tabs*/
 .tab {
 	overflow: hidden;
