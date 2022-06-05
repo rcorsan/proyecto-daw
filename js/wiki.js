@@ -181,7 +181,7 @@ function mostrarElemento(id){
 			break;
 	}
 
-	output += "<div class='botonera'><button class='boton' id='prev'>ANTERIOR</button> <button class='boton' id='back'>VOLVER</button> <button class='boton' id='next'>SIGUIENTE</button></div>"
+	output += "<div class='botonera'><button class='boton prev' id='prev'>ANTERIOR</button> <button class='boton back' id='back'>VOLVER</button> <button class='boton next' id='next'>SIGUIENTE</button></div>"
 
 	output += "</div>";
 
@@ -195,12 +195,12 @@ function mostrarElemento(id){
 		}
 	}
 
-	$("#back").click(function (e) {
+	$(".back").click(function (e) {
 		e.preventDefault();
 		generarBotones(type);
 	});
 
-	$("#prev").click(function (e) {
+	$(".prev").click(function (e) {
 		e.preventDefault();
 		let newId;
 		let prev = false;
@@ -214,7 +214,7 @@ function mostrarElemento(id){
 		(prev == true)?mostrarElemento(newId):mostrarElemento(elementos[elementos.length-1].id);
 	});
 
-	$("#next").click(function (e) {
+	$(".next").click(function (e) {
 		e.preventDefault();
 		let newId;
 		let next = false;
