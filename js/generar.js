@@ -136,6 +136,7 @@ function sessionCompr(){
 function cerrarSesion(session) {
 	updateSession(session).then((data)=>{
 		localStorage.removeItem('session');
+		generarNav();
 	});
 }
 
