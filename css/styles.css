@@ -99,7 +99,7 @@ body{
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	height: 775px;
+	height: 725px;
 }
 
 .centered-title{
@@ -108,6 +108,49 @@ body{
 	-webkit-text-stroke-width: 2px;
   	-webkit-text-stroke-color: var(--color-principal);
 	text-shadow: -3px 2px 2px var(--color-secundario), 1.5px -1px 2px var(--color-alerta);
+}
+
+#index-grid{
+	display: grid;
+	grid-template-columns: [start] 25% [line2] auto [line3] 25% [end];
+  	grid-template-rows: [first-line] 35% [mid-line] auto [last-line];
+	margin: 25px;
+	gap: 25px;
+}
+
+.player,.enemy,.dialogue,.actions{
+	border: 7.5px solid var(--color-principal);
+	border-radius: 25px;
+	padding: 25px;
+}
+
+.player{
+	grid-column-start: 1;
+	grid-column-end: span 1;
+	grid-row-start: 1;
+	grid-row-end: span 2;
+	height: 725px;
+}
+
+.enemy{
+	grid-column-start: 3;
+	grid-column-end: span 1;
+	grid-row-start: 1;
+	grid-row-end: span 2;
+}
+
+.dialogue{
+	grid-column-start: 2;
+	grid-column-end: span 1;
+	grid-row-start: 1;
+	grid-row-end: span 1;
+}
+
+.actions{
+	grid-column-start: 2;
+	grid-column-end: span 1;
+	grid-row-start: 2;
+	grid-row-end: span 1;
 }
 
 /* Tabs*/
