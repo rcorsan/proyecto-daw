@@ -112,8 +112,8 @@ function generarNav(){
 }//función que genera la barra de navegacion
 
 function generarFooter(){
-	let output = /*"<p>Proyecto 2º de grado superior de Desarrollo de Aplicaciones Web (<i>Raquel Corporales Sánchez y Víctor Talavera Moreno</i>) IES Barajas</p>";
-	output += */"<p>Imágenes e iconos provenientes de <a href='https://game-icons.net/about.html#authors' target='_blank'>game-icons.net</a>.</p>";
+	let output = "<p>Proyecto 2º de grado superior de Desarrollo de Aplicaciones Web (<i>Raquel Corporales Sánchez y Víctor Talavera Moreno</i>) IES Barajas</p>";
+	output += "<p>Imágenes e iconos provenientes de <a href='https://game-icons.net/about.html#authors' target='_blank'>game-icons.net</a>.</p>";
 	$("#footer").html(output);
 }//función que genera el pie
 
