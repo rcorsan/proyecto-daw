@@ -239,6 +239,7 @@ div.grafico{
 }
 
 /*grid, cajas y botones*/
+
 .grid-container {
     justify-items: center;
 	justify-content: center;
@@ -313,6 +314,8 @@ div.grafico{
 	margin: 0px auto;
 }
 
+/*login y signup*/
+
 #alerta{
 	background-color: var(--color-alerta);
 	height: 40px;
@@ -321,6 +324,9 @@ div.grafico{
 	padding-top: 8px;
 
 }
+
+/*Contenido ayuda*/
+
 .contenido{
 	display: none;
 	background-color: var(--color-luminoso);
@@ -334,6 +340,9 @@ div.grafico{
 .contenido>h1{
 	margin: 0;
 }
+
+/*ranking*/
+
 .ranking{
 	display: flex;
 	justify-content: center;

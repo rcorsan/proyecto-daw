@@ -4,6 +4,7 @@ $(document).ready(function () {
 	generarRanking();
 });
 
+//FUNCION QUE HACE LLAMADA GET A LA API PARA OBTENER TODOS LOS USUARIOS 
 async function getAllUsers() {
 	let result;
 	try {
@@ -20,14 +21,17 @@ async function getAllUsers() {
 	}
 };
 
+//FUNCION QUE CREA EL RANKING
 function generarRanking() {
 	getAllUsers().then((data) => {
 		let users = data;	
+		//ORDENA LOS USUARIOS DE MAYOT A MENOR DEPENDIENDO DE SU MAXIMA PUNTUACION
         users.sort(function(a, b) {
             let textA = a.maxScore;
             let textB = b.maxScore;
             return (textA > textB) ? -1 : (textA < textB) ? 1 : 0;
         });
+		//CREACION DE LA TABLA QUE MUESTRA LOS USUARIOS DE CINCO EN CINCO Y BOTONES PARA NAVEGAR ENTRE ELLOS
 		let output = "<table>";
         output +="<thead><tr><th>Posición</th><th>User</th><th>Puntuación máxima</th></tr></thead><tbody>"; 
 		let posicion=0;
@@ -53,7 +57,6 @@ function generarRanking() {
 		let botones = (prev)?("<button class='boton prev' id='prev'>ANTERIOR</button> "):"";
 		botones += (next)?("<button class='boton next' id='next'>SIGUIENTE</button>"):"";
 		$("#ranking").html(output);
-		console.log(output);
 		$("#botonera").html(botones);
 		
 		$(".prev").click(function (e) { 
@@ -66,7 +69,6 @@ function generarRanking() {
 			e.preventDefault();
 			pagina++;
 			generarRanking();
-			console.log(pagina);
 		});
 
 
