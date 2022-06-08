@@ -39,6 +39,9 @@ body{
 
 .topnav {
 	background-color: var(--color-principal);
+	position: fixed;
+	top: 0px;
+	width: 100%;
 	overflow: hidden;
 }
 
@@ -99,7 +102,7 @@ body{
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	height: 725px;
+	height: 600px;
 }
 
 .centered-title{
@@ -118,7 +121,7 @@ body{
 	gap: 25px;
 }
 
-.player,.enemy,.dialogue,.actions{
+.player,.room,.dialogue,.actions{
 	border: 7.5px solid var(--color-principal);
 	border-radius: 25px;
 	padding: 25px;
@@ -132,7 +135,7 @@ body{
 	height: 675px;
 }
 
-.enemy{
+.room{
 	grid-column-start: 3;
 	grid-column-end: span 1;
 	grid-row-start: 1;
