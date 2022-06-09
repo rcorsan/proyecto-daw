@@ -195,9 +195,9 @@ class ShopRoom extends Room {
         super("tienda", number);
         this.dialogue = "Un comerciante perdido te ofrece sus productos a un precio \"justo\"...";
         this.products = [
-            new Equipment(number),
-            {},
-            {}
+            {stock: true, product: new Equipment(number)},
+            {stock: true, product: {}},
+            {stock: true, product: {}}
         ];
     }
 }
@@ -206,7 +206,7 @@ class TreasureRoom extends Room {
     constructor(number){
         super("tesoro", number);
         this.dialogue = "Hay un cofre abierto en el centro de la sala. Parece que se te han adelantado, pero al acercarte ves que en el fondo todavía queda algo...";
-        this.treasure = {};
+        this.treasure = {stock:true, item: {}};
     }
 }
 
