@@ -1,6 +1,7 @@
 let consumables;
 getAllConsumables().then((data)=>{
 	consumables=data;
+    console.log(consumables);
 });
 let skills;
 getAllSkills().then((data)=>{
@@ -88,8 +89,6 @@ class Character {
         this.exp = 0;
         this.equipo = {
             "arma": {
-                "_id":"62935c6b54b43ed884414cfb",
-                "id":400,
                 "nombre":"palo de madera",
                 "descripcion":"Los niños juegan con esto.",
                 "estadisticas":{"fuerza":2,"magia":0,"defensa":0,"resistencia":0,"destreza":1,"suerte":0,"vitalidad":0,"espiritu":0},
@@ -100,8 +99,6 @@ class Character {
                 "imagen":"delapouite/wood-stick.svg"
             },
             "cabeza": {
-                "_id":"629e61c45dce1a4a45de18b1",
-                "id":402,
                 "nombre":"sombrero de aventurero",
                 "descripcion":"De los bosques de Notts a tu sesera.",
                 "estadisticas":{"fuerza":0,"magia":0,"defensa":1,"resistencia":0,"destreza":1,"suerte":0,"vitalidad":0,"espiritu":0},
@@ -112,8 +109,6 @@ class Character {
                 "imagen":"delapouite/robin-hood-hat.svg"
             },
             "torso": {
-                "_id":"629e62925dce1a4a45de18b2",
-                "id":403,
                 "nombre":"camisa de campesino",
                 "descripcion":"Esta camisa necesita un buen lavado.",
                 "estadisticas":{"fuerza":0,"magia":0,"defensa":2,"resistencia":1,"destreza":0,"suerte":0,"vitalidad":0,"espiritu":0},
@@ -124,8 +119,6 @@ class Character {
                 "imagen":"lucasms/shirt.svg"
             },
             "piernas": {
-                "_id":"629e685d5dce1a4a45de18b3",
-                "id":404,
                 "nombre":"botas viejas",
                 "descripcion":"No hay agujero que un buen parche no pueda arreglar.",
                 "estadisticas":{"fuerza":0,"magia":0,"defensa":0,"resistencia":0,"destreza":2,"suerte":0,"vitalidad":0,"espiritu":0},
@@ -159,6 +152,20 @@ class Enemy {
     }
 }
 
+class Equipment {
+    constructor(numSala){
+        this.rareza = generarRarezaEquipo(numSala);
+        let modelo = generarEquipo(this.rareza);
+        this.nombre = modelo.nombre;
+        this.descripcion = modelo.descripcion;
+        this.estadisticas = modelo.estadisticas;
+        this.precio = modelo.precio;
+        this.clase = modelo.clase;
+        this.tipo = modelo.tipo;
+        this.imagen = modelo.imagen;
+    }
+}
+
 class Room {
     constructor(type, number){
         this.type=type;
@@ -172,7 +179,7 @@ class BattleRoom extends Room {
         super((number%10==0)?("jefe"):("batalla"), number);
         this.enemy = new Enemy(generarClaseEnemigo(number));
         this.turn = 1;
-        this.dialogue = "Un " + this.enemy.nombre + " te corta el paso...";
+        this.dialogue = "Un enemigo te corta el paso...";
     }
 }
 
@@ -187,6 +194,19 @@ class ShopRoom extends Room {
     constructor(number){
         super("tienda", number);
         this.dialogue = "Un comerciante perdido te ofrece sus productos a un precio \"justo\"...";
+        this.products = [
+            new Equipment(number),
+            {},
+            {}
+        ];
+    }
+}
+
+class TreasureRoom extends Room {
+    constructor(number){
+        super("tesoro", number);
+        this.dialogue = "Hay un cofre abierto en el centro de la sala. Parece que se te han adelantado, pero al acercarte ves que en el fondo todavía queda algo...";
+        this.treasure = {};
     }
 }
 
@@ -259,7 +279,7 @@ function roomView(){
                     claseLit = "Desconocida";
                     break;
             }
-            view += "<div style='display: flex; align-items: flex-start; justify-content: space-between;'><img class='info-img' src='./assets/000000/1x1/" + room.enemy.imagen + "' alt='profile-img' />";
+            view += "<div style='display: flex; align-items: flex-start; justify-content: space-between;'><img class='info-img' src='./assets/000000/1x1/" + room.enemy.imagen + "' alt='enemy-img' />";
             view += "<h1>" + capitalise(room.enemy.nombre) + "</h1></div>";
             view += "<div style='display: flex; align-items: flex-start; justify-content: space-between; flex-direction: column;'><h3>Clase: " + claseLit + "<br/>Tipo: " + capitalise(room.enemy.tipo) + "</h3></div>";
             view += "<div style='display: flex; align-items: flex-start; justify-content: space-between;'>";
@@ -278,15 +298,22 @@ function roomView(){
             break;
 
         case "tienda":
+            view += "<div style='display: flex; align-items: flex-start; justify-content: space-between;'><img class='info-img' src='./assets/000000/1x1/delapouite/backpack.svg' alt='merchant-img' />";
+            view += "<h1>Comerciante</h1></div>";
             break;
 
         case "tesoro":
+            view += "<div style='display: flex; align-items: flex-start; justify-content: space-between;'><img class='info-img' src='./assets/000000/1x1/skoll/open-chest.svg' alt='treasure-img' />";
+            view += "<h1>Cofre casi vacio</h1></div>";
             break;
 
         default:
         case "descanso":
-            view += "<div style='display: flex; align-items: flex-start; justify-content: space-between;'><img class='info-img' src='./assets/000000/1x1/delapouite/camping-tent.svg' alt='profile-img' />";
+            view += "<div style='display: flex; align-items: flex-start; justify-content: space-between;'><img class='info-img' src='./assets/000000/1x1/delapouite/camping-tent.svg' alt='tent-img' />";
             view += "<h1>Sala vacía</h1></div>";
+            view += "<h2>En esta sala no hay peligro, puedes descansar aquí para restaurar tu vitalidad y espíritu por completo.</h2>";
+            view += "<h2>También puedes continuar sin descansar si lo deseas.</h2>";
+            view += "<h3>Se recomienda descansar de vez en cuando.</h3>";
             break;
     }
     view += "<div style='display: flex; align-items: flex-end; justify-content: space-between;'><h4>Sala: " + capitalise(room.type) + "</h4><h4>Piso: " + room.number + "</h4><h4>Puntuación: " + session.score + "</h4></div>";
@@ -471,6 +498,58 @@ function generarClaseEnemigo(numSala) {
         result = 0;
     }else if((numSala % 5) < 7){
         result = 1;
+    }else result = 2;
+
+    return result;
+}
+
+function generarConsumible(numSala) {
+    let precioMax = 50;
+
+    if (numSala > 30){
+        precioMax = 300;
+    }else if(numSala < 10){
+        precioMax = 50;
+    }else if(numSala < 20){
+        precioMax = 100;
+    }else precioMax = 150;
+
+    let consumibles = [];
+    consumables.forEach(consumable => {
+        if (consumable.precio<=precioMax){
+            consumibles.push(consumable);
+        }
+    });
+    let indice = randomNum(0,consumibles.length - 1);
+    return consumibles[indice];
+}
+
+function generarEquipo(rareza) {
+    let equipos = [];
+    equipments.forEach(equipment => {
+        if (equipment.rareza == rareza){
+            equipos.push(equipment);
+        }
+    });
+    let indice = randomNum(0,equipos.length - 1);
+    return equipos[indice];
+}
+
+function generarRarezaEquipo(numSala) {
+    let result = 0;
+
+    if (numSala > 30){
+        let aux = randomNum(1,10);
+        if(aux>5) result = 2;
+        else result = 3;
+    }else if(numSala < 10){
+        let aux = randomNum(1,10);
+        if(aux>5) result = 0;
+        else result = 1;
+    }else if(numSala < 20){
+        let aux = randomNum(1,10);
+        if(aux>5) result = 1;
+        else result = 2;
     }else result = 2;
 
     return result;
