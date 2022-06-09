@@ -33,6 +33,7 @@ $(document).ready(function () {
 
 function gameInit(){
     $("#index-buttons").css("display","none");
+    $("#index-grid").css("display","grid");
     session = JSON.parse(localStorage.getItem('session'));
     if (session.playing){
         character = session.character;
@@ -162,6 +163,7 @@ class Room {
     constructor(type, number){
         this.type=type;
         this.number=number;
+        this.dialogue="";
     }
 }
 
@@ -169,13 +171,29 @@ class BattleRoom extends Room {
     constructor(number){
         super((number%10==0)?("jefe"):("batalla"), number);
         this.enemy = new Enemy(generarClaseEnemigo(number));
+        this.turn = 1;
+        this.dialogue = "Un " + this.enemy.nombre + " te corta el paso...";
+    }
+}
+
+class RestRoom extends Room {
+    constructor(number){
+        super("descanso", number);
+        this.dialogue = "Has llegado a un sitio pacífico. Parece un buen lugar para descansar...";
+    }
+}
+
+class ShopRoom extends Room {
+    constructor(number){
+        super("tienda", number);
+        this.dialogue = "Un comerciante perdido te ofrece sus productos a un precio \"justo\"...";
     }
 }
 
 function generarViews(){
     $("#index-grid").html(playerView()+dialogueView()+actionsView()+roomView());
     graficoPlayer();
-    graficoEnemy();
+    if(room.enemy)graficoEnemy();
 }
 
 function playerView(){
@@ -207,7 +225,9 @@ function playerView(){
 }
 
 function dialogueView(){
-    let view = "<div class='dialogue'></div>";
+    let view = "<div class='dialogue'>";
+    view += "<p>" + room.dialogue + "</p>";
+    view += "</div>";
     return view;
 }
 
@@ -254,6 +274,7 @@ function roomView(){
             view += "<br/>Espíritu: " + room.enemy.energia + "/" + (room.enemy.espiritu * 5) + "</h5></div>";
             view += "</div>";
             view += "<canvas id='grafico-enemy' class='grafico-enemy'></canvas>";
+            view += "<strong>Turno: " + room.turn +"</strong>";
             break;
 
         case "tienda":
@@ -264,9 +285,11 @@ function roomView(){
 
         default:
         case "descanso":
+            view += "<div style='display: flex; align-items: flex-start; justify-content: space-between;'><img class='info-img' src='./assets/000000/1x1/delapouite/camping-tent.svg' alt='profile-img' />";
+            view += "<h1>Sala vacía</h1></div>";
             break;
     }
-    view += "<div style='display: flex; align-items: flex-start; justify-content: space-between;'><h4>Sala: " + capitalise(room.type) + "</h4><h4>Piso: " + room.number + "</h4><h4>Puntuación: " + session.score + "</h4></div>";
+    view += "<div style='display: flex; align-items: flex-end; justify-content: space-between;'><h4>Sala: " + capitalise(room.type) + "</h4><h4>Piso: " + room.number + "</h4><h4>Puntuación: " + session.score + "</h4></div>";
     view += "</div>";
     return view;
 }

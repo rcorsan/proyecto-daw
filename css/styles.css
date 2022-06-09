@@ -114,11 +114,12 @@ body{
 }
 
 #index-grid{
-	display: grid;
+	display: none;/*grid*/
 	grid-template-columns: [start] 400px [line2] auto [line3] 400px [end];
-  	grid-template-rows: [first-line] 35% [mid-line] auto [last-line];
+  	grid-template-rows: [first-line] 25% [mid-line] auto [last-line];
 	margin: 25px;
 	gap: 25px;
+	height: 725px;
 }
 
 .player,.room,.dialogue,.actions{
@@ -132,7 +133,6 @@ body{
 	grid-column-end: span 1;
 	grid-row-start: 1;
 	grid-row-end: span 2;
-	height: 675px;
 }
 
 .room{
@@ -140,6 +140,10 @@ body{
 	grid-column-end: span 1;
 	grid-row-start: 1;
 	grid-row-end: span 2;
+	display: flex;
+	flex-direction: column;
+	align-content: flex-start;
+	justify-content: space-between;
 }
 
 .dialogue{
