@@ -42,7 +42,7 @@ function gameInit(){
         session.score = 0;
         character = new Character();
         session.character = character;
-        room = new BattleRoom(1);
+        room = new TreasureRoom(1);
         session.room = room;
         session.playing = true;
     }
@@ -263,7 +263,32 @@ function dialogueView(){
 }
 
 function actionsView(){
-    let view = "<div class='actions'></div>";
+    let view = "<div class='actions'>";
+    let actions = generarActions();
+    
+    if(actions <= 8){
+        view += "<div style='display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center; align-content: center; gap: 25px 50px;'>";
+        actions.forEach(action => {
+            view += "<div class='caja " + action.action + "'>" + action.label + "</div>";
+        });
+        view += "</div>";
+    }else {
+        for (let pag = 0; pag <= (Math.trunc(actions.length/8)); pag ++){
+            if(pag==0){
+                view += "<div id='pag-" + pag + "' style='display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center; align-content: center; gap: 25px 50px;'>";
+            }else{
+                view += "<div id='pag-" + pag + "' style='display: none; flex-wrap: wrap; justify-content: space-around; align-items: center; align-content: center; gap: 25px 50px;'>";
+            }
+            for (let i = 0; i < actions.length; i++){
+                if(Math.trunc(i/8)==pag){
+                    view += "<div class='caja " + actions[i].action + "'>" + actions[i].label + "</div>";
+                }
+            }
+            view += "</div>";
+        }
+    }
+    
+    view += "</div>";
     return view;
 }
 
@@ -555,6 +580,41 @@ function graficoEnemy(){
 		$(".grafico-enemy"),
 		config
 	);
+}
+
+function generarActions() {
+
+    let actions = [];
+
+    switch (room.type) {
+        case "batalla":
+        case "jefe":
+            actions.push({label: "Atacar", action: "atacar"});
+            actions.push({label: "Habilidades", action: "ver-habilidades"});
+            actions.push({label: "Objetos", action: "ver-objetos"});
+            actions.push({label: "Huir", action: "huir"});
+            break;
+
+        case "tienda":
+            actions.push({label: capitalise(room.products[0].product.nombre), action: "producto-0"});
+            actions.push({label: capitalise(room.products[1].product.nombre), action: "producto-1"});
+            actions.push({label: capitalise(room.products[2].product.nombre), action: "producto-2"});
+            actions.push({label: "Continuar",action: "continuar"});
+            break;
+
+        case "tesoro":
+            actions.push({label: capitalise(room.treasure.item.nombre), action: "tesoro"});
+            actions.push({label: "Continuar", action: "continuar"});
+            break;
+
+        default:
+        case "descanso":
+            actions.push({label: "Descansar", action: "descansar"});
+            actions.push({label: "Continuar", action: "continuar"});
+            break;
+    }
+
+    return actions;
 }
 
 function generarEnemigo(clase){
