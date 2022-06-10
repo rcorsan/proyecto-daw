@@ -120,6 +120,7 @@ body{
 	margin: 25px;
 	gap: 25px;
 	height: 725px;
+	margin-bottom: 125px;
 }
 
 .player,.room,.dialogue,.actions{
@@ -159,6 +160,9 @@ body{
 	grid-column-end: span 1;
 	grid-row-start: 2;
 	grid-row-end: span 1;
+	display: flex;
+	align-content: center;
+	justify-content: center;
 }
 
 .info-img{
@@ -265,6 +269,7 @@ div.grafico{
     background-color:var(--color-principal);
     margin: 10px 0px;
 	width: 400px;
+	height: 75px;
 	border: none;
 	border-radius: 40px;
     text-align: center;
