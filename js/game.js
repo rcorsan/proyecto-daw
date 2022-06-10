@@ -1,7 +1,6 @@
 let consumables;
 getAllConsumables().then((data)=>{
 	consumables=data;
-    console.log(consumables);
 });
 let skills;
 getAllSkills().then((data)=>{
@@ -43,7 +42,7 @@ function gameInit(){
         session.score = 0;
         character = new Character();
         session.character = character;
-        room = new BattleRoom(1);
+        room = new ShopRoom(1);
         session.room = room;
         session.playing = true;
     }
@@ -166,6 +165,17 @@ class Equipment {
     }
 }
 
+class Consumable {
+    constructor(numSala){
+        let modelo = generarConsumible(numSala);
+        this.nombre = modelo.nombre;
+        this.descripcion = modelo.descripcion;
+        this.explicacion = modelo.explicacion;
+        this.precio = modelo.precio;
+        this.imagen = modelo.imagen;
+    }
+}
+
 class Room {
     constructor(type, number){
         this.type=type;
@@ -196,8 +206,8 @@ class ShopRoom extends Room {
         this.dialogue = "Un comerciante perdido te ofrece sus productos a un precio \"justo\"...";
         this.products = [
             {stock: true, product: new Equipment(number)},
-            {stock: true, product: {}},
-            {stock: true, product: {}}
+            {stock: true, product: new Consumable(number)},
+            {stock: true, product: new Consumable(number)}
         ];
     }
 }
@@ -206,7 +216,8 @@ class TreasureRoom extends Room {
     constructor(number){
         super("tesoro", number);
         this.dialogue = "Hay un cofre abierto en el centro de la sala. Parece que se te han adelantado, pero al acercarte ves que en el fondo todavía queda algo...";
-        this.treasure = {stock:true, item: {}};
+        this.treasure = {stock:true, item: generarTesoro(number)};
+        this.treasureType = (this.treasure.item instanceof Consumable)?("consumable"):("equipment");
     }
 }
 
@@ -246,7 +257,7 @@ function playerView(){
 
 function dialogueView(){
     let view = "<div class='dialogue'>";
-    view += "<p>" + room.dialogue + "</p>";
+    view += "<strong>" + room.dialogue + "</strong>";
     view += "</div>";
     return view;
 }
@@ -300,11 +311,79 @@ function roomView(){
         case "tienda":
             view += "<div style='display: flex; align-items: flex-start; justify-content: space-between;'><img class='info-img' src='./assets/000000/1x1/delapouite/backpack.svg' alt='merchant-img' />";
             view += "<h1>Comerciante</h1></div>";
+            view += "<div style='display: flex; align-items: center; justify-content: space-between;'><img class='info-img' src='./assets/000000/1x1/" + room.products[0].product.imagen + "' alt='merchant-item-img' />";
+            view += "<div style='display: flex; flex-direction: column; align-items: flex-end;'><h3>" + capitalise(room.products[0].product.nombre) + "</h3>";
+            let rarezaLit = "Común";
+            switch (room.products[0].product.rareza) {
+                case 1:
+                    rarezaLit = "Raro";
+                    break;
+                
+                case 2:
+                    rarezaLit = "Épico";
+                    break;
+
+                case 3:
+                    rarezaLit = "Legendario";
+                    break;
+                
+                default:
+                case 0:
+                    rarezaLit = "Común";
+                    break;
+            }
+            view += "<h4>Rareza: " + rarezaLit;
+            view += "<br/>Precio: " + room.products[0].product.precio + "</h4></div></div>";
+            for(let i = 1; i<3; i++){
+                view += "<div style='display: flex; align-items: center; justify-content: space-between;'><img class='info-img' src='./assets/000000/1x1/" + room.products[i].product.imagen + "' alt='merchant-item-img' />";
+                view += "<div style='display: flex; flex-direction: column; align-items: flex-end;'><h3>" + capitalise(room.products[i].product.nombre) + "</h3>";
+                view += "<h4 style='max-width: 90%;'>" + room.products[i].product.explicacion;
+                view += "<br/>Precio: " + room.products[i].product.precio + "</h4></div></div>"
+            }
             break;
 
         case "tesoro":
             view += "<div style='display: flex; align-items: flex-start; justify-content: space-between;'><img class='info-img' src='./assets/000000/1x1/skoll/open-chest.svg' alt='treasure-img' />";
             view += "<h1>Cofre casi vacio</h1></div>";
+            view += "<h2>Al fondo del recipiente te encuentras:</h2>";
+            view += "<div style='display: flex; align-items: center; justify-content: space-between;'><img class='info-img' src='./assets/000000/1x1/" + room.treasure.item.imagen + "' alt='treasure-item-img' />";
+            view += "<div style='display: flex; flex-direction: column; align-items: flex-end;'><h3>" + capitalise(room.treasure.item.nombre) + "</h3>";
+            if (room.treasureType == "consumable"){
+                view += "<h4 style='max-width: 90%;'>" + room.treasure.item.explicacion + "</h4></div></div>";
+            }else if (room.treasureType == "equipment"){
+                let rarezaLit = "Común";
+                switch (room.treasure.item.rareza) {
+                    case 1:
+                        rarezaLit = "Raro";
+                        break;
+                    
+                    case 2:
+                        rarezaLit = "Épico";
+                        break;
+
+                    case 3:
+                        rarezaLit = "Legendario";
+                        break;
+                    
+                    default:
+                    case 0:
+                        rarezaLit = "Común";
+                        break;
+                }
+                view += "<h4>Rareza: " + rarezaLit + "</h4></div></div>";
+                view += "<div style='display: flex; align-items: flex-start; justify-content: space-between;'>"
+                view += "<h4>Estadísticas: </h4>";
+                view += "<div><h5>Fuerza: " + room.treasure.item.estadisticas.fuerza;
+                view += "<br/>Defensa: " + room.treasure.item.estadisticas.defensa;
+                view += "<br/>Destreza: " + room.treasure.item.estadisticas.destreza;
+                view += "<br/>Vitalidad: " + room.treasure.item.estadisticas.vitalidad + "</h5></div>";
+                view += "<div><h5>Magia: " + room.treasure.item.estadisticas.magia;
+                view += "<br/>Resistencia: " + room.treasure.item.estadisticas.resistencia;
+                view += "<br/>Suerte: " + room.treasure.item.estadisticas.suerte ;
+                view += "<br/>Espíritu: " + room.treasure.item.estadisticas.espiritu + "</h5></div>";
+                view += "</div>";
+            }
+                        
             break;
 
         default:
@@ -500,6 +579,24 @@ function generarClaseEnemigo(numSala) {
         result = 1;
     }else result = 2;
 
+    return result;
+}
+
+function generarTesoro(numSala) {
+    let result = new Equipment(numSala);
+    
+    if (10<numSala<30){
+        let aux = randomNum(1,10);
+        if (aux > 7){
+            result = new Consumable(numSala);
+        }
+    }else if (numSala>30){
+        let aux = randomNum(1,10);
+        if (aux > 5){
+            result = new Consumable(numSala);
+        }
+    }
+    
     return result;
 }
 
