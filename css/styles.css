@@ -229,6 +229,9 @@ div.grafico{
 	transition: all 0.4s;
 	
 }
+.panel p{
+	font-weight: bold;
+}
 
 
 .desplegable.active, .desplegable:hover {
@@ -361,11 +364,6 @@ div.grafico{
 	outline:10px solid blue;
 	outline-offset: 10px;
 	transition: 0.5s all;
-}
-.ranking>table:hover{ 
-	transition: 0.5s all;
-	outline:10px solid violet;
-	outline-offset: 40px;	
 }
 .ranking table,th,tr{
 	border: 1px solid;
