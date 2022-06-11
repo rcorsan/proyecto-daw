@@ -86,6 +86,7 @@ class Character {
         this.oro = 0;
         this.nivel = 1;
         this.exp = 0;
+        this.inventario = [];
         this.equipo = {
             "arma": {
                 "nombre":"palo de madera",
@@ -232,7 +233,7 @@ function playerView(){
     let view = "<div class='player'>";
     view += "<div style='display: flex; align-items: flex-start; justify-content: space-between;'><img class='info-img' src='./assets/000000/1x1/" + session.image + "' alt='profile-img' />";
     view += "<h1>" + session.name + "</h1></div>";
-    view += "<div style='display: flex; align-items: center; justify-content: space-between;'><h3>Nivel: " + character.nivel + "</h3><h3>Experiencia: " + character.exp + "/" + (character.nivel + 1) * 50 + "</h3></div>";
+    view += "<div style='display: flex; align-items: center; justify-content: space-between;'><h3>Nivel: " + character.nivel + "</h3><h4>Experiencia: " + character.exp + "/" + (character.nivel + 1) * 50 + "</h4><h4>Oro: " + character.oro + "</h4></div>";
     view += "<div style='display: flex; align-items: flex-start; justify-content: space-between;'>";
     view += "<h4>Estadísticas: </h4>";
     view += "<div><h5>Fuerza: " + (character.fuerza + character.equipo.arma.estadisticas.fuerza + character.equipo.cabeza.estadisticas.fuerza + character.equipo.torso.estadisticas.fuerza + character.equipo.piernas.estadisticas.fuerza);
@@ -632,11 +633,11 @@ function generarEnemigo(clase){
 function generarClaseEnemigo(numSala) {
     let result = 0;
     
-    if (numSala == 10){
+    if ((numSala % 10) == 0){
         result = 3;
-    }else if((numSala % 10) < 4){
+    }else if(numSala < 10){
         result = 0;
-    }else if((numSala % 5) < 7){
+    }else if(numSala < 30){
         result = 1;
     }else result = 2;
 
@@ -714,9 +715,31 @@ function generarRarezaEquipo(numSala) {
 }
 
 function generarEventos() {
+    $(".nueva-partida").click(function (e) {
+        e.preventDefault();
+        gameInit();
+    });
+
+    $(".salir").click(function (e) { 
+        e.preventDefault();
+        session.playing = false;
+        localStorage.setItem('session', JSON.stringify(session));
+        $(location).attr('href', document.location.href);
+    });
+
     $(".continuar").click(function (e) { 
         e.preventDefault();
         siguienteSala();
+    });
+    
+    $(".descansar").click(function (e) {
+        e.preventDefault();
+        room.dialogue = "";
+        restaurar();
+        session.character = character;
+        session.room = room;
+        generarViews();
+        victoriaActions();
     });
     
     $(".atacar").click(function (e) { 
@@ -759,6 +782,7 @@ function atacar() {
     let daño = parseInt(ataque - debilitacion);
 
     daño = parseInt(daño);
+    if(daño<1)daño = 1;
 
     room.enemy.vida += -daño;
     room.dialogue = "Has atacado y el enemigo ha perdido " + daño + " puntos de vida.<br/>";
@@ -773,10 +797,15 @@ function turnoEnemigo() {
     let victoria = false;
     let derrota = false;
     if(room.enemy.vida <= 0){
-        room.dialogue += "Has derrotado al enemigo.";
+        room.dialogue += "Has derrotado al enemigo.<br/>";
         victoria = true;
         session.score += 100 + 50 * room.enemy.clase;
         character.exp += 50 + 25 * room.enemy.clase;
+        character.oro += 10 * (parseInt((room.enemy.clase) * 1.5) + 1);
+        room.dialogue += "Has recibido " + (50 + 25 * room.enemy.clase) + " puntos de experiencia y " + (10 * (parseInt((room.enemy.clase) * 1.5) + 1)) + " de oro.<br/>";
+        if (character.exp >= (50 + character.nivel * 50)){
+            subirNivel();
+        }
     }else{
         let ataque = room.enemy.fuerza;
         let debilitacion = character.defensa / 2;
@@ -786,6 +815,7 @@ function turnoEnemigo() {
         }
         let daño = ataque - debilitacion;
         daño = parseInt(daño);
+        if(daño<1)daño = 1;
         character.vida += -daño;
         room.dialogue += "El enemigo te ha atacado y has perdido " + daño + " puntos de vida.";
         if(character.vida<1) {
@@ -795,6 +825,8 @@ function turnoEnemigo() {
             if(session.score > session.maxScore){
                 session.maxScore = session.score;
             }
+            session.playing = false;
+            localStorage.setItem('session', JSON.stringify(session));
         }else{
             room.turn += 1;
         }
@@ -813,8 +845,25 @@ function turnoEnemigo() {
     }
 }
 
+function derrotaActions() {
+    let view = "<div style='display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center; align-content: center; gap: 25px 50px;'>";
+    view += "<div class='caja nueva-partida'>Empezar de nuevo</div>";
+    view += "<div class='caja salir'>Salir</div>";
+    view += "</div>";
+    $(".actions").html(view);
+    generarEventos();
+}
+
+function victoriaActions() {
+    let view = "<div style='display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center; align-content: center; gap: 25px 50px;'>";
+    view += "<div class='caja continuar'>Continuar</div>";
+    view += "</div>";
+    $(".actions").html(view);
+    generarEventos();
+}
+
 function siguienteSala() {
-    if(room.number%10!=3 && room.number%10!=6 && room.number%10!=9){
+    if((room.number + 1) % 10 != 3 && (room.number + 1) % 10 != 6 && (room.number + 1) % 10 != 9){
         room = new BattleRoom(room.number + 1);
     }else{
         let aux = randomNum(1,3)
@@ -836,6 +885,29 @@ function siguienteSala() {
     session.room = room;
     localStorage.setItem('session', JSON.stringify(session));
     generarViews();
+}
+
+function subirNivel() {
+    character.exp = character.exp - (50 + character.nivel * 50);
+    character.nivel += 1;
+    room.dialogue += "¡Has subido de nivel! Ahora eres nivel " + (character.nivel) + ".<br/>";
+    let bonus = parseInt(1 + character.nivel / 10);
+    room.dialogue += "¡Tus estadísticas aumentan en +" + bonus + "!<br/>";
+    character.fuerza += 1;
+    character.defensa += 1;
+    character.destreza += 1;
+    character.magia += 1;
+    character.resistencia += 1;
+    character.suerte += 1;
+    character.vitalidad += 1;
+    character.espiritu += 1;
+    restaurar();
+}
+
+function restaurar() {
+    room.dialogue += "Tus puntos de salud y de espíritu han sido restaurados por completo.";
+    character.vida = character.vitalidad * 5;
+    character.energia = character.espiritu * 5;
 }
 
 function capitalise(texto){
