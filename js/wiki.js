@@ -188,7 +188,7 @@ function mostrarElemento(id){
 			break;
 	}
 
-	output += "<div class='botonera'><button class='boton prev' id='prev'>ANTERIOR</button> <button class='boton back' id='back'>VOLVER</button> <button class='boton next' id='next'>SIGUIENTE</button></div>"
+	output += "<div class='botonera'><button class='boton prev' id='prev'>ANTERIOR</button> <button class='boton back' id='back'>VOLVER</button> <button class='boton next' id='next'>SIGUIENTE</button></div>";
 
 	output += "</div>";
 

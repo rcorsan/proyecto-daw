@@ -152,7 +152,7 @@ body{
 	grid-column-end: span 1;
 	grid-row-start: 1;
 	grid-row-end: span 1;
-	min-width: 500px;
+	min-width: 850px;
 }
 
 .actions{
@@ -160,6 +160,7 @@ body{
 	grid-column-end: span 1;
 	grid-row-start: 2;
 	grid-row-end: span 1;
+	min-width: 850px;
 	display: flex;
 	align-content: center;
 	justify-content: center;
