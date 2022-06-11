@@ -317,8 +317,8 @@ function roomView(){
                     claseLit = "Desconocida";
                     break;
             }
-            view += "<div style='display: flex; align-items: flex-start; justify-content: space-between;'><img class='info-img' src='./assets/000000/1x1/" + room.enemy.imagen + "' alt='enemy-img' />";
-            view += "<h1>" + capitalise(room.enemy.nombre) + "</h1></div>";
+            view += "<div style='display: flex; align-items: flex-start; justify-content: space-between;'><h1>" + capitalise(room.enemy.nombre) + "</h1>";
+            view += "<img class='info-img' src='./assets/000000/1x1/" + room.enemy.imagen + "' alt='enemy-img' /></div>";
             view += "<div style='display: flex; align-items: flex-start; justify-content: space-between; flex-direction: column;'><h3>Clase: " + claseLit + "<br/>Tipo: " + capitalise(room.enemy.tipo) + "</h3></div>";
             view += "<div style='display: flex; align-items: flex-start; justify-content: space-between;'>";
             view += "<h4>Estadísticas: </h4>";
@@ -617,9 +617,9 @@ function generarActions() {
             break;
 
         case "tienda":
-            actions.push({label: capitalise(room.products[0].product.nombre), action: "producto-0"});
-            actions.push({label: capitalise(room.products[1].product.nombre), action: "producto-1"});
-            actions.push({label: capitalise(room.products[2].product.nombre), action: "producto-2"});
+            actions.push({label: capitalise(room.products[0].product.nombre), action: "producto producto0"});
+            actions.push({label: capitalise(room.products[1].product.nombre), action: "producto producto1"});
+            actions.push({label: capitalise(room.products[2].product.nombre), action: "producto producto2"});
             actions.push({label: "Continuar",action: "continuar"});
             break;
 
@@ -768,12 +768,12 @@ function generarEventos() {
 
     $(".ver-habilidades").click(function (e) { 
         e.preventDefault();
-        console.log("hab");
+        alert("Esta función no está disponible por el momento.")
     });
 
     $(".ver-objetos").click(function (e) { 
         e.preventDefault();
-        console.log("obj");
+        verInventario();
     });
 
     $(".huir").click(function (e) { 
@@ -796,6 +796,35 @@ function generarEventos() {
         generarViews();
         victoriaActions();
     });
+
+    $(".producto").click(function (e) { 
+        e.preventDefault();
+        let index;
+        if($(e.target).hasClass("producto0")){
+            index = 0;
+        }else if($(e.target).hasClass("producto1")){
+            index = 1;
+        }else if($(e.target).hasClass("producto2")){
+            index = 2;
+        }
+        if(room.products[index].stock){
+            if(room.products[index].product.precio > character.oro){
+                room.dialogue = "No tienes suficiente oro para comprar " + room.products[index].product.nombre + "...";
+            }else{
+                tomarObjeto(true, room.products[index]);
+                room.dialogue = "Has obtenido " + room.products[index].product.nombre + ".";
+            }
+        }else room.dialogue = "No quedan existencias...";
+        session.room = room;
+        generarViews();
+    });
+
+    $(".objeto").click(function (e) { 
+        e.preventDefault();
+        usarObjeto($(e.target).attr('id'));
+        generarViews();
+        turnoEnemigo();
+    });
 }
 
 function atacar() {
@@ -807,13 +836,24 @@ function atacar() {
         debilitacion = room.enemy.resistencia / 2;
     }
 
+    let critico = false;
+    let prob = randomNum(0,100) + character.suerte;
+    if (prob>95){
+        ataque = ataque * (1 + (0.1 * character.destreza));
+        critico = true;
+    }
+
     let daño = parseInt(ataque - debilitacion);
 
     daño = parseInt(daño);
     if(daño<1)daño = 1;
 
     room.enemy.vida += -daño;
-    room.dialogue = "Has atacado y el enemigo ha perdido " + daño + " puntos de vida.<br/>";
+    if(critico){
+        room.dialogue = "¡Has ejecutado un ataque CRÍTICO y el enemigo ha perdido " + daño + " puntos de vida!<br/>";
+    }else{
+        room.dialogue = "Has atacado y el enemigo ha perdido " + daño + " puntos de vida.<br/>";
+    }
     if(room.enemy.vida<0) room.enemy.vida = 0;
 
     session.room = room;
@@ -842,10 +882,20 @@ function turnoEnemigo() {
             debilitacion = character.resistencia / 2;
         }
         let daño = ataque - debilitacion;
+        let critico = false;
+        let prob = randomNum(0,100) + room.enemy.suerte;
+        if (prob>95){
+            ataque = ataque * (1 + (0.1 * room.enemy.destreza));
+            critico = true;
+        }
         daño = parseInt(daño);
         if(daño<1)daño = 1;
         character.vida += -daño;
-        room.dialogue += "El enemigo te ha atacado y has perdido " + daño + " puntos de vida.";
+        if(critico){
+            room.dialogue += "¡El enemigo te ha atacado con un ataque CRÍTICO y has perdido " + daño + " puntos de vida!";
+        }else{
+            room.dialogue += "El enemigo te ha atacado y has perdido " + daño + " puntos de vida.";
+        }
         if(character.vida<1) {
             character.vida = 0;
             derrota = true;
@@ -872,6 +922,133 @@ function turnoEnemigo() {
     if (victoria){
         victoriaActions();
     }
+}
+
+function verInventario() {
+    let view = "<div style='display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center; align-content: center; gap: 25px 50px;'>";
+    view += "<div class='caja' onClick='generarViews()'>Volver</div>";
+    for (let i = 0; i < character.inventario.length; i++) {
+        view += "<div class='caja objeto' id='" + i + "'>" + capitalise(character.inventario[i].nombre) + "</div>";
+    }
+    view += "</div>";
+    $(".actions").html(view);
+    generarEventos();
+}
+
+function usarObjeto(index) {
+    room.dialogue = "Has usado " + character.inventario[index].nombre + ".<br/>";
+    room.dialogue += "(" + character.inventario[index].explicacion + ")<br/>";
+
+    switch (character.inventario[index].nombre) {
+        case "poción curativa pequeña":
+            character.vida += 20;
+            let vitalidad = character.vitalidad + character.equipo.arma.estadisticas.vitalidad + character.equipo.cabeza.estadisticas.vitalidad + character.equipo.torso.estadisticas.vitalidad + character.equipo.piernas.estadisticas.vitalidad;
+            if (character.vida > (vitalidad * 5)) character.vida = (vitalidad * 5);
+            break;
+            
+        case "poción energética pequeña":
+            character.energia += 20;
+            let espiritu = character.espiritu + character.equipo.arma.estadisticas.espiritu + character.equipo.cabeza.estadisticas.espiritu + character.equipo.torso.estadisticas.espiritu + character.equipo.piernas.estadisticas.espiritu;
+            if (character.energia > (espiritu * 5)) character.energia = (espiritu * 5);
+            break;
+
+        case "tomate de fuerza":
+            character.fuerza += 1;
+            break;
+            
+        case "ketchup de fuerza":
+            character.fuerza += 3;
+            break;
+
+        case "leche de destreza":
+            character.destreza += 1;
+            break;
+            
+        case "queso de destreza":
+            character.destreza += 3;
+            break;
+
+        
+        case "granos de resistencia":
+            character.resistencia += 1;
+            break;
+            
+        case "café de resistencia":
+            character.resistencia += 3;
+            break;
+
+        case "chocolate de suerte":
+            character.suerte += 1;
+            break;
+
+        case "galleta de suerte":
+            character.suerte += 3;
+            break;
+            
+        case "patata de vitalidad":
+            character.vitalidad += 1;
+            break;
+
+        case "patatas de vitalidad":
+            character.vitalidad += 3;
+            break;
+        
+        case "uvas de espíritu":
+            character.espiritu += 1;
+            break;
+
+        case "vino de espíritu":
+            character.espiritu += 3;
+            break;
+        
+        case "manzana de magia":
+            character.magia += 1;
+            break;
+
+        case "tarta de magia":
+            character.magia += 3;
+            break;
+
+        case "poción curativa":
+            character.vida += 50;
+            let vitalidad_ = character.vitalidad + character.equipo.arma.estadisticas.vitalidad + character.equipo.cabeza.estadisticas.vitalidad + character.equipo.torso.estadisticas.vitalidad + character.equipo.piernas.estadisticas.vitalidad;
+            if (character.vida > (vitalidad_ * 5)) character.vida = (vitalidad_ * 5);
+            break;
+            
+        case "poción energética":
+            character.energia += 50;
+            let espiritu_ = character.espiritu + character.equipo.arma.estadisticas.espiritu + character.equipo.cabeza.estadisticas.espiritu + character.equipo.torso.estadisticas.espiritu + character.equipo.piernas.estadisticas.espiritu;
+            if (character.energia > (espiritu_ * 5)) character.energia = (espiritu_ * 5);
+            break;
+
+        case "poción mixta":
+            character.vida += 60;
+            character.energia += 60;
+            let vitalidad__ = character.vitalidad + character.equipo.arma.estadisticas.vitalidad + character.equipo.cabeza.estadisticas.vitalidad + character.equipo.torso.estadisticas.vitalidad + character.equipo.piernas.estadisticas.vitalidad;
+            if (character.vida > (vitalidad_ * 5)) character.vida = (vitalidad_ * 5);
+            let espiritu__ = character.espiritu + character.equipo.arma.estadisticas.espiritu + character.equipo.cabeza.estadisticas.espiritu + character.equipo.torso.estadisticas.espiritu + character.equipo.piernas.estadisticas.espiritu;
+            if (character.energia > (espiritu_ * 5)) character.energia = (espiritu_ * 5);
+            break;
+
+        case "cornucopia":
+            character.fuerza += 2;
+            character.defensa += 2;
+            character.destreza += 2;
+            character.magia += 2;
+            character.resistencia += 2;
+            character.suerte += 2;
+            character.vitalidad += 2;
+            character.espiritu += 2;
+            break;
+
+        default:
+            break;
+    }
+
+    character.inventario.splice(index, 1);
+
+    session.room = room;
+    session.character = character;
 }
 
 function derrotaActions() {
@@ -991,6 +1168,7 @@ function endGame() {
     if(session.score > session.maxScore){
         session.maxScore = session.score;
     }
+    localStorage.setItem('session', JSON.stringify(session));
     updateSession(session);
     generarViews();
     derrotaActions();
@@ -998,7 +1176,10 @@ function endGame() {
 }
 
 function winnerRoom(){
-    let view = "<h1>Enhorabuena, has ganado.</h1>";
+    let view = "<div style='display: flex; align-items: flex-start; justify-content: space-between;'><h1>¡Ganaste!</h1>";
+    view += "<img class='info-img' src='./assets/000000/1x1/lorc/laurel-crown.svg' alt='crown-img' /></div>";
+    view += "<h2>Superaste los 50 pisos con una puntuación de <span style='color: rgb(7, 2, 255); font-size: 30px;'>" + session.score + "</span> puntos.</h2>";
+    view += "<h3>Puedes intentar superarte volviéndolo a intentar, o volver a la página principal si lo prefieres.</h3>";
     $(".room").html(view);
 }
 
