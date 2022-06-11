@@ -64,7 +64,7 @@ function mostrarContenido(id){
 		});
 		$("#contenido").html(output);
 
-		$("#back").click(function (e) {
+		$(".boton").click(function (e) {
 			location.reload();
 			generarBotones();
 		});
