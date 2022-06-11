@@ -855,6 +855,7 @@ function turnoEnemigo() {
             }
             session.playing = false;
             localStorage.setItem('session', JSON.stringify(session));
+            updateSession(session);
         }else{
             room.turn += 1;
         }
@@ -891,9 +892,9 @@ function victoriaActions() {
 }
 
 function siguienteSala() {
-    if((room.number + 1) % 10 != 3 && (room.number + 1) % 10 != 6 && (room.number + 1) % 10 != 9){
+    if((room.number + 1) % 10 != 3 && (room.number + 1) % 10 != 6 && (room.number + 1) % 10 != 9 && room.number<=50){
         room = new BattleRoom(room.number + 1);
-    }else{
+    }else if(room.number<51){
         let aux = randomNum(1,3)
         switch (aux) {
             case 1:
@@ -909,10 +910,11 @@ function siguienteSala() {
                 room = new TreasureRoom(room.number + 1);
                 break;
         }
-    }    
+    }
     session.room = room;
     localStorage.setItem('session', JSON.stringify(session));
     generarViews();
+    if(room.number>50)endGame();
 }
 
 function subirNivel() {
@@ -980,6 +982,24 @@ function restaurar() {
     room.dialogue += "Tus puntos de salud y de espíritu han sido restaurados por completo.";
     character.vida = (character.vitalidad + character.equipo.arma.estadisticas.vitalidad + character.equipo.cabeza.estadisticas.vitalidad + character.equipo.torso.estadisticas.vitalidad + character.equipo.piernas.estadisticas.vitalidad) * 5;
     character.energia = (character.espiritu + character.equipo.arma.estadisticas.espiritu + character.equipo.cabeza.estadisticas.espiritu + character.equipo.torso.estadisticas.espiritu + character.equipo.piernas.estadisticas.espiritu) * 5;
+}
+
+function endGame() {
+    room.dialogue = "Enhorabuena has completado los " + 50 + " pisos.";
+    session.playing = false;
+    session.room = room;
+    if(session.score > session.maxScore){
+        session.maxScore = session.score;
+    }
+    updateSession(session);
+    generarViews();
+    derrotaActions();
+    winnerRoom();
+}
+
+function winnerRoom(){
+    let view = "<h1>Enhorabuena, has ganado.</h1>";
+    $(".room").html(view);
 }
 
 function capitalise(texto){
