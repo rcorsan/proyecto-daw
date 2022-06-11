@@ -44,7 +44,7 @@ function generarRanking() {
 				output += (posicion==1)?(" class='oro'"):("");
 				output += (posicion==2)?(" class='plata'"):("");
 				output += (posicion==3)?(" class='bronce'"):("");
-				output += "><th>"+posicion+"</th><th>"+user.name.toUpperCase()+"</th><th>"+user.session.maxScore+"</th></tr>";
+				output += "><th>"+posicion+"</th><th>"+user.name+"</th><th>"+user.session.maxScore+"</th></tr>";
 			}else{
 				if(posicion<= pagina * 5){
 					prev = true;

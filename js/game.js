@@ -206,9 +206,9 @@ class ShopRoom extends Room {
         super("tienda", number);
         this.dialogue = "Un comerciante perdido te ofrece sus productos a un precio \"justo\"...";
         this.products = [
-            {stock: true, product: new Equipment(number)},
-            {stock: true, product: new Consumable(number)},
-            {stock: true, product: new Consumable(number)}
+            {stock: true, product: new Equipment(number), type: "equipment"},
+            {stock: true, product: new Consumable(number), type: "consumable"},
+            {stock: true, product: new Consumable(number), type: "consumable"}
         ];
     }
 }
@@ -218,7 +218,7 @@ class TreasureRoom extends Room {
         super("tesoro", number);
         this.dialogue = "Hay un cofre abierto en el centro de la sala. Parece que se te han adelantado, pero al acercarte ves que en el fondo todavía queda algo...";
         this.treasure = {stock:true, item: generarTesoro(number)};
-        this.treasureType = (this.treasure.item instanceof Consumable)?("consumable"):("equipment");
+        this.treasure.type = (this.treasure.item instanceof Consumable)?("consumable"):("equipment");
     }
 }
 
@@ -375,9 +375,9 @@ function roomView(){
             view += "<h2>Al fondo del recipiente te encuentras:</h2>";
             view += "<div style='display: flex; align-items: center; justify-content: space-between;'><img class='info-img' src='./assets/000000/1x1/" + room.treasure.item.imagen + "' alt='treasure-item-img' />";
             view += "<div style='display: flex; flex-direction: column; align-items: flex-end;'><h3>" + capitalise(room.treasure.item.nombre) + "</h3>";
-            if (room.treasureType == "consumable"){
+            if (room.treasure.type == "consumable"){
                 view += "<h4 style='max-width: 90%;'>" + room.treasure.item.explicacion + "</h4></div></div>";
-            }else if (room.treasureType == "equipment"){
+            }else if (room.treasure.type == "equipment"){
                 let rarezaLit = "Común";
                 switch (room.treasure.item.rareza) {
                     case 1:
@@ -400,14 +400,33 @@ function roomView(){
                 view += "<h4>Rareza: " + rarezaLit + "</h4></div></div>";
                 view += "<div style='display: flex; align-items: flex-start; justify-content: space-between;'>"
                 view += "<h4>Estadísticas: </h4>";
-                view += "<div><h5>Fuerza: " + room.treasure.item.estadisticas.fuerza;
-                view += "<br/>Defensa: " + room.treasure.item.estadisticas.defensa;
-                view += "<br/>Destreza: " + room.treasure.item.estadisticas.destreza;
-                view += "<br/>Vitalidad: " + room.treasure.item.estadisticas.vitalidad + "</h5></div>";
-                view += "<div><h5>Magia: " + room.treasure.item.estadisticas.magia;
-                view += "<br/>Resistencia: " + room.treasure.item.estadisticas.resistencia;
-                view += "<br/>Suerte: " + room.treasure.item.estadisticas.suerte ;
-                view += "<br/>Espíritu: " + room.treasure.item.estadisticas.espiritu + "</h5></div>";
+                let actual = character.equipo.arma;
+                switch (room.treasure.item.clase) {
+                    case "cabeza":
+                        actual = character.equipo.cabeza;
+                        break;
+
+                    case "torso":
+                        actual = character.equipo.torso;
+                        break;
+
+                    case "piernas":
+                        actual = character.equipo.piernas;
+                        break;
+                
+                    case "arma":
+                    default:
+                        actual = character.equipo.arma;
+                        break;
+                }
+                view += "<div><h5>Fuerza: " + room.treasure.item.estadisticas.fuerza + " (" + (room.treasure.item.estadisticas.fuerza - actual.estadisticas.fuerza) + ")";
+                view += "<br/>Defensa: " + room.treasure.item.estadisticas.defensa + " (" + (room.treasure.item.estadisticas.defensa - actual.estadisticas.defensa) + ")";
+                view += "<br/>Destreza: " + room.treasure.item.estadisticas.destreza + " (" + (room.treasure.item.estadisticas.destreza - actual.estadisticas.destreza) + ")";
+                view += "<br/>Vitalidad: " + room.treasure.item.estadisticas.vitalidad + " (" + (room.treasure.item.estadisticas.vitalidad - actual.estadisticas.vitalidad) + ")</h5></div>";
+                view += "<div><h5>Magia: " + room.treasure.item.estadisticas.magia + " (" + (room.treasure.item.estadisticas.magia - actual.estadisticas.magia) + ")";
+                view += "<br/>Resistencia: " + room.treasure.item.estadisticas.resistencia + " (" + (room.treasure.item.estadisticas.resistencia - actual.estadisticas.resistencia) + ")";
+                view += "<br/>Suerte: " + room.treasure.item.estadisticas.suerte + " (" + (room.treasure.item.estadisticas.suerte - actual.estadisticas.suerte) + ")";
+                view += "<br/>Espíritu: " + room.treasure.item.estadisticas.espiritu + " (" + (room.treasure.item.estadisticas.espiritu - actual.estadisticas.espiritu) + ")</h5></div>";
                 view += "</div>";
             }
                         
@@ -768,6 +787,15 @@ function generarEventos() {
             turnoEnemigo();
         }
     });
+
+    $(".tesoro").click(function (e) { 
+        e.preventDefault();
+        room.dialogue = "Has obtenido " + room.treasure.item.nombre + ".";
+        tomarObjeto(false, room.treasure);
+        session.room = room;
+        generarViews();
+        victoriaActions();
+    });
 }
 
 function atacar() {
@@ -848,7 +876,7 @@ function turnoEnemigo() {
 function derrotaActions() {
     let view = "<div style='display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center; align-content: center; gap: 25px 50px;'>";
     view += "<div class='caja nueva-partida'>Empezar de nuevo</div>";
-    view += "<div class='caja salir'>Salir</div>";
+    view += "<div class='caja salir'>Volver al inicio</div>";
     view += "</div>";
     $(".actions").html(view);
     generarEventos();
@@ -904,10 +932,54 @@ function subirNivel() {
     restaurar();
 }
 
+function tomarObjeto(compra, objeto) {
+    let posible = true;
+    let item = {};
+    if (compra){
+        item = objeto.product;
+        if(character.oro >= item.precio && objeto.stock) {
+            posible = true;
+            character.oro += -item.precio;
+        }else posible = false;
+    }else item = objeto.item;
+    if (posible) {
+        switch (objeto.type) {
+            case "equipment":
+                switch (item.clase) {
+                    case "cabeza":
+                        character.equipo.cabeza = item;
+                        break;
+
+                    case "torso":
+                        character.equipo.torso = item;
+                        break
+
+                    case "piernas":
+                        character.equipo.piernas = item;
+                        break
+
+                    case "arma":
+                    default:
+                        character.equipo.arma = item;
+                        break;
+                }
+                break;
+
+            case "consumable":
+            default:
+                character.inventario.push(item);
+                break;
+        }
+        objeto.stock = false;
+    }
+
+    session.character = character;
+}
+
 function restaurar() {
     room.dialogue += "Tus puntos de salud y de espíritu han sido restaurados por completo.";
-    character.vida = character.vitalidad * 5;
-    character.energia = character.espiritu * 5;
+    character.vida = (character.vitalidad + character.equipo.arma.estadisticas.vitalidad + character.equipo.cabeza.estadisticas.vitalidad + character.equipo.torso.estadisticas.vitalidad + character.equipo.piernas.estadisticas.vitalidad) * 5;
+    character.energia = (character.espiritu + character.equipo.arma.estadisticas.espiritu + character.equipo.cabeza.estadisticas.espiritu + character.equipo.torso.estadisticas.espiritu + character.equipo.piernas.estadisticas.espiritu) * 5;
 }
 
 function capitalise(texto){
