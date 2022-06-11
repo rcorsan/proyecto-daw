@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    //AL PULSAR EL BOTON SUBMI HARA LO SIGUIENTE
+    //AL PULSAR EL BOTON SUBMIT HARA LO SIGUIENTE
     $("#submit").on("click", function (event) {
         event.preventDefault();
         //GUARDA LOS DATOS PASADOS EN EL FORMULARIO EN UN OBJETO
