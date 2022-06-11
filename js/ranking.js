@@ -27,8 +27,8 @@ function generarRanking() {
 		let users = data;	
 		//ORDENA LOS USUARIOS DE MAYOT A MENOR DEPENDIENDO DE SU MAXIMA PUNTUACION
         users.sort(function(a, b) {
-            let textA = a.maxScore;
-            let textB = b.maxScore;
+            let textA = a.session.maxScore;
+            let textB = b.session.maxScore;
             return (textA > textB) ? -1 : (textA < textB) ? 1 : 0;
         });
 		//CREACION DE LA TABLA QUE MUESTRA LOS USUARIOS DE CINCO EN CINCO Y BOTONES PARA NAVEGAR ENTRE ELLOS
@@ -44,7 +44,7 @@ function generarRanking() {
 				output += (posicion==1)?(" class='oro'"):("");
 				output += (posicion==2)?(" class='plata'"):("");
 				output += (posicion==3)?(" class='bronce'"):("");
-				output += "><th>"+posicion+"</th><th>"+user.name.toUpperCase()+"</th><th>"+user.maxScore+"</th></tr>";
+				output += "><th>"+posicion+"</th><th>"+user.name.toUpperCase()+"</th><th>"+user.session.maxScore+"</th></tr>";
 			}else{
 				if(posicion<= pagina * 5){
 					prev = true;
