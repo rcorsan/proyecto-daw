@@ -42,7 +42,7 @@ function gameInit(){
         session.score = 0;
         character = new Character();
         session.character = character;
-        room = new TreasureRoom(1);
+        room = new BattleRoom(1);
         session.room = room;
         session.playing = true;
     }
@@ -225,6 +225,7 @@ function generarViews(){
     $("#index-grid").html(playerView()+dialogueView()+actionsView()+roomView());
     graficoPlayer();
     if(room.enemy)graficoEnemy();
+    generarEventos();
 }
 
 function playerView(){
@@ -287,7 +288,7 @@ function actionsView(){
             view += "</div>";
         }
     }
-    
+
     view += "</div>";
     return view;
 }
@@ -661,15 +662,15 @@ function generarTesoro(numSala) {
 }
 
 function generarConsumible(numSala) {
-    let precioMax = 50;
+    let precioMax = 25;
 
     if (numSala > 30){
         precioMax = 300;
     }else if(numSala < 10){
-        precioMax = 50;
+        precioMax = 25;
     }else if(numSala < 20){
-        precioMax = 100;
-    }else precioMax = 150;
+        precioMax = 50;
+    }else precioMax = 100;
 
     let consumibles = [];
     consumables.forEach(consumable => {
@@ -710,6 +711,131 @@ function generarRarezaEquipo(numSala) {
     }else result = 2;
 
     return result;
+}
+
+function generarEventos() {
+    $(".continuar").click(function (e) { 
+        e.preventDefault();
+        siguienteSala();
+    });
+    
+    $(".atacar").click(function (e) { 
+        e.preventDefault();
+        atacar();
+    });
+
+    $(".ver-habilidades").click(function (e) { 
+        e.preventDefault();
+        console.log("hab");
+    });
+
+    $(".ver-objetos").click(function (e) { 
+        e.preventDefault();
+        console.log("obj");
+    });
+
+    $(".huir").click(function (e) { 
+        e.preventDefault();
+        let aux = randomNum(1,5);
+        let prob = aux + (character.destreza * 0.025 - (room.enemy.destreza * 0.0125)) + (character.suerte * 0.0125);
+        if (prob > 4) {
+            siguienteSala();
+        }else{
+            room.dialogue = "No has podido escapar...<br/>";
+            turnoEnemigo();
+        }
+    });
+}
+
+function atacar() {
+    let ataque = character.fuerza;
+    let debilitacion = room.enemy.defensa / 2;
+
+    if(character.equipo.arma.tipo=="báculo" || character.equipo.arma.tipo=="varita" || character.equipo.arma.tipo=="orbe" || character.equipo.arma.tipo=="tomo"){
+        ataque = character.magia;
+        debilitacion = room.enemy.resistencia / 2;
+    }
+
+    let daño = parseInt(ataque - debilitacion);
+
+    daño = parseInt(daño);
+
+    room.enemy.vida += -daño;
+    room.dialogue = "Has atacado y el enemigo ha perdido " + daño + " puntos de vida.<br/>";
+    if(room.enemy.vida<0) room.enemy.vida = 0;
+
+    session.room = room;
+    session.character = character;
+    turnoEnemigo();
+}
+
+function turnoEnemigo() {
+    let victoria = false;
+    let derrota = false;
+    if(room.enemy.vida <= 0){
+        room.dialogue += "Has derrotado al enemigo.";
+        victoria = true;
+        session.score += 100 + 50 * room.enemy.clase;
+        character.exp += 50 + 25 * room.enemy.clase;
+    }else{
+        let ataque = room.enemy.fuerza;
+        let debilitacion = character.defensa / 2;
+        if (room.enemy.magia > room.enemy.fuerza) {
+            ataque = room.enemy.magia;
+            debilitacion = character.resistencia / 2;
+        }
+        let daño = ataque - debilitacion;
+        daño = parseInt(daño);
+        character.vida += -daño;
+        room.dialogue += "El enemigo te ha atacado y has perdido " + daño + " puntos de vida.";
+        if(character.vida<1) {
+            character.vida = 0;
+            derrota = true;
+            room.dialogue += "<br/>Tu personaje ha caido en combate.<br/>¿Deseas empezar de nuevo?";
+            if(session.score > session.maxScore){
+                session.maxScore = session.score;
+            }
+        }else{
+            room.turn += 1;
+        }
+    }
+    
+    session.character = character;
+    session.room = room;
+    localStorage.setItem('session', JSON.stringify(session));
+    generarViews();
+
+    if (derrota){
+        derrotaActions();
+    }
+    if (victoria){
+        victoriaActions();
+    }
+}
+
+function siguienteSala() {
+    if(room.number%10!=3 && room.number%10!=6 && room.number%10!=9){
+        room = new BattleRoom(room.number + 1);
+    }else{
+        let aux = randomNum(1,3)
+        switch (aux) {
+            case 1:
+                room = new RestRoom(room.number + 1);
+                break;
+        
+            case 2:
+                room = new ShopRoom(room.number + 1);
+                break;
+
+            case 3:
+            default:
+                room = new TreasureRoom(room.number + 1);
+                break;
+        }
+    }    
+    session.room = room;
+    localStorage.setItem('session', JSON.stringify(session));
+    generarViews();
 }
 
 function capitalise(texto){
