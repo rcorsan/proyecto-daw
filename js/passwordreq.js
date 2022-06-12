@@ -11,7 +11,7 @@ $(document).ready(function () {
         async function password() {
         
             let response = await postPassword(objeto).then((data) => data);
-            
+
             if (response == "error") {
                 let error = "El usuario no se encuentra";
                 $("#alerta").css("visibility","visible");

@@ -21,7 +21,12 @@ $(document).ready(function () {
                 $("#alerta").css("visibility","visible");
                 $("#alerta").html(error);
                 $("form")[0].reset();
-            } else {
+            }else if(password==""|user==""|password==""&user==""){
+                let error = "Se requiere escribir todos los campos";
+                $("#alerta").css("visibility", "visible");
+                $("#alerta").html(error);
+                $("form")[0].reset();
+            }else {
                 //GUARDA LA SESSION ENVIADA DESDE LA BBDD EN LOCALSTORAGE
                 localStorage.setItem("session", response);
                 $(location).attr('href','../');
@@ -50,4 +55,5 @@ async function postLogin(params) {
     } catch (error) {
         console.error(error);
     }
-}
+};
+
