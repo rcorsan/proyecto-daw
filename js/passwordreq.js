@@ -8,6 +8,9 @@ $(document).ready(function () {
         let objeto = {
             name: user
         };
+        /*
+        *FUNCION PARA ENVIAR LOS DATOS DEL FORMULARIO A LA API
+        */
         async function password() {
         
             let response = await postPassword(objeto).then((data) => data);
@@ -17,7 +20,13 @@ $(document).ready(function () {
                 $("#alerta").css("visibility","visible");
                 $("#alerta").html(error);
                 $("#user").val("");s
-            }else{
+            }else if(user==""){
+                let error = "Se requiere escribir el usuario";
+                $("#alerta").css("visibility","visible");
+                $("#alerta").html(error);
+                $("#user").val("");s
+            }
+            else{
                 let mensaje = "Comprueba tu correo electrónico.";
                 $("#alerta").css("background-color","green");
                 $("#alerta").css("color","white");

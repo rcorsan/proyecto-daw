@@ -13,7 +13,11 @@ $(document).ready(function () {
             password: pass,
             password2:pass2
         };
-        async function passwordres() {
+        /*
+        *FUNCION PARA ENVIAR LOS DATOS DEL FORMULARIO A LA API
+        */
+       
+       async function passwordres() {
         
             let response = await postPasswordres(objeto).then((data) => data);
             if (response == "error") {
@@ -27,7 +31,14 @@ $(document).ready(function () {
                 $("#alerta").html(error);
                 $("#password").val("");
                 $("#password2").val("");
-            }else{
+            }else if(user==""|pass==""|pass2==""){
+                let error = "se requiere escribir todos los campos";
+                $("#alerta").css("visibility","visible");
+                $("#alerta").html(error);
+                $("#password").val("");
+                $("#password2").val("");
+            }
+            else{
                 let mensaje = "Contraseña cambiada correctamente.";
                 $("#alerta").css("background-color","green");
                 $("#alerta").css("color","white");
