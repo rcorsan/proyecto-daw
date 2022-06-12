@@ -95,6 +95,24 @@ body{
 	color: black;
 }
 
+/*Cambio de imagen*/
+
+#cambio-img{
+	display: none;
+	position: fixed;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-around;
+	gap: 20px;
+	top: 75px;
+	left: 25%;
+	width: 50%;
+	height: 700px;
+	background-color: var(--color-luminoso);
+	border: 5px solid var(--color-principal);
+	border-radius: 50px;
+}
+
 /* Index*/
 
 #index-buttons{

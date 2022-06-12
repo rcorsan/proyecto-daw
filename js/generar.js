@@ -3,10 +3,30 @@ $( document ).ready(function() {
 	generarNav();
 	generarFooter();
 
-	$("#navLogo").click(function(){
+	$("#navLogo").click(function (e) {
+		e.preventDefault();
 		document.location.href = "https://rcorsan.github.io/proyecto-daw/";
 	});
-
+	//evento para mostrar el menú de cambio de imagen
+	$("#navImg").click(function (e) { 
+		e.preventDefault();
+		if ($("#cambio-img").css('display')=="none"){
+			$("#cambio-img").css('display','flex');
+		} else {
+			$("#cambio-img").css('display','none');
+		}
+	});
+	//evento para cambiar la imagen
+	$(".new-img").click(function (e) { 
+		e.preventDefault();
+		let session = JSON.parse(localStorage.getItem('session'));
+		if ($(e.target).attr("alt")!=session.image) {
+			session.image = $(e.target).attr("alt");
+			localStorage.setItem('session', JSON.stringify(session));
+			updateSession(session);
+			location.reload();
+		} else $("#cambio-img").css('display','none');
+	});
 	
 });
 
@@ -81,6 +101,50 @@ function generarNav(){
 		output += "<img id=\"navImg\" class='rightNav' src=\"" + imagepath + session.image + "\" width=\"48px\" alt=\"profile image\" /> ";
 		output += "<div class='rightNav' href=\"" + href + "" + "\"> " + session.name + "</div>";
 		output += "<a class='rightNav' id='cerrarSesion' href=\"" + href + "\"> Cerrar Sesión</a>";
+		output += "<div class='cambio-img' id='cambio-img'><div style='width: 100%; color: black;'><h1>CAMBIO DE IMAGEN DE PERFIL</h1></div>";
+		let images = [
+			"caro-asercion/prank-glasses.svg",
+			"caro-asercion/frog-mouth-helm.svg",
+			"caro-asercion/warlord-helmet.svg",
+			"lorc/cowled.svg",
+			"lorc/crowned-skull.svg",
+			"lorc/fedora.svg",
+			"lorc/cat.svg",
+			"lorc/squid-head.svg",
+			"delapouite/centurion-helmet.svg",
+			"delapouite/bandit.svg",
+			"delapouite/closed-barbute.svg",
+			"carl-olsen/mite-alt.svg",
+			"caro-asercion/axolotl.svg",
+			"delapouite/rat.svg",
+			"lorc/monkey.svg",
+			"lorc/sad-crab.svg",
+			"lorc/gluttonous-smile.svg",
+			"lorc/fairy.svg",
+			"lorc/evil-book.svg",
+			"delapouite/spiked-dragon-head.svg",
+			"lorc/beast-eye.svg",
+			"lorc/scales.svg",
+			"delapouite/g-clef.svg",
+			"delapouite/dice-fire.svg",
+			"lorc/sword-smithing.svg",
+			"lorc/daggers.svg",
+			"lorc/thrown-daggers.svg",
+			"lorc/clover.svg",
+			"lorc/cursed-star.svg",
+			"lorc/transfuse.svg",
+			"lorc/grab.svg",
+			"delapouite/labrador-head.svg"
+		];
+		images.forEach(image => {
+			output += "<img class='new-img' src=";
+			if(document.title != "Inicio") output += ".";
+			output += "./assets/000000/1x1/" + image + " alt=" + image;
+			if (image == session.image) {
+				output += " width='80px' style='border: 10px solid rgb(7, 2, 255); cursor: pointer;' />";
+			}else output += " width='100px' style='cursor: pointer;' />";
+		});
+		output += "</div>";
 	}else {
 		output += "<a class='rightNav' href=\"" + href + "login/" + "\"> Iniciar Sesión</a>";
 		output += "<a class='rightNav' href=\"" + href + "signup/" + "\"> Registrarse</a>";
