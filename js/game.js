@@ -49,7 +49,7 @@ function gameInit(){
         session.score = 0;
         character = new Character();
         session.character = character;
-        room = new ShopRoom(1);
+        room = new BattleRoom(1);
         session.room = room;
         session.playing = true;
     }
