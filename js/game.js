@@ -1,3 +1,6 @@
+/*
+*INICIALIZACIÓN DE VARIABLES
+*/
 let consumables;
 getAllConsumables().then((data)=>{
 	consumables=data;
@@ -18,7 +21,9 @@ getAllEquipments().then((data)=>{
 let session={};
 let character={};
 let room={};
-
+/*
+*EVENTO DEL BOTÓN DE JUGAR
+*/
 $(document).ready(function () {
     $("#play-button").click(function (e) { 
         e.preventDefault();
@@ -30,7 +35,9 @@ $(document).ready(function () {
         }
     });
 });
-
+/*
+*FUNCIÓN QUE INICIA O CARGA LA PARTIDA
+*/
 function gameInit(){
     $("#index-buttons").css("display","none");
     $("#index-grid").css("display","grid");
@@ -42,7 +49,7 @@ function gameInit(){
         session.score = 0;
         character = new Character();
         session.character = character;
-        room = new BattleRoom(1);
+        room = new ShopRoom(1);
         session.room = room;
         session.playing = true;
     }
@@ -51,7 +58,9 @@ function gameInit(){
     
 
 }
-
+/*
+*FUNCIÓN QUE MUESTRA LAS OPCIONES DE INICIO DE PARTIDA
+*/
 function elegirPartida(){
     let output = "<h1 class='centered-title'>Ya existe una partida empezada.<br/>¿Deseas continuar la partida anterior?</h1>";
     output += "<button id='continue-button' class='caja'>CONTINUAR PARTIDA</button>";
@@ -70,7 +79,12 @@ function elegirPartida(){
         gameInit();
     });
 }
-
+/*
+*CLASES DEL JUEGO
+*/
+/*
+*CLASE DE PERSONAJE
+*/
 class Character {
     constructor(){
         this.fuerza = 2 + randomNum(0, 5);
@@ -131,7 +145,9 @@ class Character {
         }
     }
 }
-
+/*
+*CLASE DE ENEMIGO
+*/
 class Enemy {
     constructor(clase){
         let modelo = generarEnemigo(clase);
@@ -151,7 +167,9 @@ class Enemy {
         this.energia=this.espiritu*5;
     }
 }
-
+/*
+*CLASE DE EQUIPAMIENTO
+*/
 class Equipment {
     constructor(numSala){
         this.rareza = generarRarezaEquipo(numSala);
@@ -165,7 +183,9 @@ class Equipment {
         this.imagen = modelo.imagen;
     }
 }
-
+/*
+*CLASE DE CONSUMIBLE
+*/
 class Consumable {
     constructor(numSala){
         let modelo = generarConsumible(numSala);
@@ -176,7 +196,9 @@ class Consumable {
         this.imagen = modelo.imagen;
     }
 }
-
+/*
+*CLASE DE HABITACION
+*/
 class Room {
     constructor(type, number){
         this.type=type;
@@ -184,7 +206,9 @@ class Room {
         this.dialogue="";
     }
 }
-
+/*
+*CLASE DE HABITACION DE BATALLA
+*/
 class BattleRoom extends Room {
     constructor(number){
         super((number%10==0)?("jefe"):("batalla"), number);
@@ -193,14 +217,18 @@ class BattleRoom extends Room {
         this.dialogue = "Un enemigo te corta el paso...";
     }
 }
-
+/*
+*CLASE DE HABITACION DE DESCANSO
+*/
 class RestRoom extends Room {
     constructor(number){
         super("descanso", number);
         this.dialogue = "Has llegado a un sitio pacífico. Parece un buen lugar para descansar...";
     }
 }
-
+/*
+*CLASE DE HABITACION DE TIENDA
+*/
 class ShopRoom extends Room {
     constructor(number){
         super("tienda", number);
@@ -212,7 +240,9 @@ class ShopRoom extends Room {
         ];
     }
 }
-
+/*
+*CLASE DE HABITACION DE TESORO
+*/
 class TreasureRoom extends Room {
     constructor(number){
         super("tesoro", number);
@@ -221,14 +251,18 @@ class TreasureRoom extends Room {
         this.treasure.type = (this.treasure.item instanceof Consumable)?("consumable"):("equipment");
     }
 }
-
+/*
+*FUNCIÓN QUE MUESTRA LAS VISTAS DEL JUEGO
+*/
 function generarViews(){
     $("#index-grid").html(playerView()+dialogueView()+actionsView()+roomView());
     graficoPlayer();
     if(room.enemy)graficoEnemy();
     generarEventos();
 }
-
+/*
+*FUNCIÓN QUE MUESTRA LA VISTA DE LA INFORMACIÓN DEL JUGADOR
+*/
 function playerView(){
     let view = "<div class='player'>";
     view += "<div style='display: flex; align-items: flex-start; justify-content: space-between;'><img class='info-img' src='./assets/000000/1x1/" + session.image + "' alt='profile-img' />";
@@ -256,14 +290,18 @@ function playerView(){
     view += "</div>";
     return view;
 }
-
+/*
+*FUNCIÓN QUE MUESTRA LA VISTA DE LA INFORMACIÓN DEL DIALOGO DEL JUEGO
+*/
 function dialogueView(){
     let view = "<div class='dialogue'>";
     view += "<strong>" + room.dialogue + "</strong>";
     view += "</div>";
     return view;
 }
-
+/*
+*FUNCIÓN QUE MUESTRA LA VISTA DE LAS ACCIONES
+*/
 function actionsView(){
     let view = "<div class='actions'>";
     let actions = generarActions();
@@ -293,7 +331,9 @@ function actionsView(){
     view += "</div>";
     return view;
 }
-
+/*
+*FUNCIÓN QUE MUESTRA LA VISTA DE LA INFORMACIÓN DE LA HABITACIÓN
+*/
 function roomView(){
     let view = "<div class='room'>";
     switch (room.type) {
@@ -340,6 +380,29 @@ function roomView(){
             view += "<h1>Comerciante</h1></div>";
             view += "<div style='display: flex; align-items: center; justify-content: space-between;'><img class='info-img' src='./assets/000000/1x1/" + room.products[0].product.imagen + "' alt='merchant-item-img' />";
             view += "<div style='display: flex; flex-direction: column; align-items: flex-end;'><h3>" + capitalise(room.products[0].product.nombre) + "</h3>";
+            let actual = character.equipo.arma;
+            switch (room.products[0].product.clase) {
+                case "cabeza":
+                    actual = character.equipo.cabeza;
+                    break;
+
+                case "torso":
+                    actual = character.equipo.torso;
+                    break;
+
+                case "piernas":
+                    actual = character.equipo.piernas;
+                    break;
+            
+                case "arma":
+                default:
+                    actual = character.equipo.arma;
+                    break;
+            }
+            view += "<div><h5>Fuerza: " + room.products[0].product.estadisticas.fuerza + " (" + (room.products[0].product.estadisticas.fuerza - actual.estadisticas.fuerza) + ") Magia: " + room.products[0].product.estadisticas.magia + " (" + (room.products[0].product.estadisticas.magia - actual.estadisticas.magia) + ")";
+            view += "<br/>Defensa: " + room.products[0].product.estadisticas.defensa + " (" + (room.products[0].product.estadisticas.defensa - actual.estadisticas.defensa) + ") Resistencia: " + room.products[0].product.estadisticas.resistencia + " (" + (room.products[0].product.estadisticas.resistencia - actual.estadisticas.resistencia) + ")";
+            view += "<br/>Destreza: " + room.products[0].product.estadisticas.destreza + " (" + (room.products[0].product.estadisticas.destreza - actual.estadisticas.destreza) + ") Suerte: " + room.products[0].product.estadisticas.suerte + " (" + (room.products[0].product.estadisticas.suerte - actual.estadisticas.suerte) + ")";
+            view += "<br/>Vitalidad: " + room.products[0].product.estadisticas.vitalidad + " (" + (room.products[0].product.estadisticas.vitalidad - actual.estadisticas.vitalidad) + ") Espíritu: " + room.products[0].product.estadisticas.espiritu + " (" + (room.products[0].product.estadisticas.espiritu - actual.estadisticas.espiritu) + ")</h5></div>";
             let rarezaLit = "Común";
             switch (room.products[0].product.rareza) {
                 case 1:
@@ -359,13 +422,13 @@ function roomView(){
                     rarezaLit = "Común";
                     break;
             }
-            view += "<h4>Rareza: " + rarezaLit;
-            view += "<br/>Precio: " + room.products[0].product.precio + "</h4></div></div>";
+            view += "<h5>Rareza: " + rarezaLit;
+            view += "<br/>Precio: " + room.products[0].product.precio + "</h5></div></div>";
             for(let i = 1; i<3; i++){
                 view += "<div style='display: flex; align-items: center; justify-content: space-between;'><img class='info-img' src='./assets/000000/1x1/" + room.products[i].product.imagen + "' alt='merchant-item-img' />";
                 view += "<div style='display: flex; flex-direction: column; align-items: flex-end;'><h3>" + capitalise(room.products[i].product.nombre) + "</h3>";
-                view += "<h4 style='max-width: 90%;'>" + room.products[i].product.explicacion;
-                view += "<br/>Precio: " + room.products[i].product.precio + "</h4></div></div>"
+                view += "<h5 style='max-width: 90%;'>" + room.products[i].product.explicacion;
+                view += "<br/>Precio: " + room.products[i].product.precio + "</h5></div></div>"
             }
             break;
 
@@ -445,7 +508,9 @@ function roomView(){
     view += "</div>";
     return view;
 }
-
+/*
+*FUNCIÓN QUE CREA EL GRÁFICO DEL JUGADOR
+*/
 function graficoPlayer(){
 
     let fuerzaEquipo = character.equipo.arma.estadisticas.fuerza + character.equipo.cabeza.estadisticas.fuerza + character.equipo.torso.estadisticas.fuerza + character.equipo.piernas.estadisticas.fuerza;
@@ -538,7 +603,9 @@ function graficoPlayer(){
 		config
 	);
 }
-
+/*
+*FUNCIÓN QUE CREA EL GRÁFICO DEL ENEMIGO
+*/
 function graficoEnemy(){
 
     const data = {
@@ -602,7 +669,9 @@ function graficoEnemy(){
 		config
 	);
 }
-
+/*
+*FUNCIÓN QUE DEVUELVE LAS ACCIONES DISPONIBLES AL ENTRAR EN UNA SALA
+*/
 function generarActions() {
 
     let actions = [];
@@ -637,7 +706,9 @@ function generarActions() {
 
     return actions;
 }
-
+/*
+*FUNCIÓN QUE DEVUELVE UN ENEMIGO A PARTIR DE LA CLASE
+*/
 function generarEnemigo(clase){
     let enemigos = [];
     enemies.forEach(enemy => {
@@ -648,7 +719,9 @@ function generarEnemigo(clase){
     let indice = randomNum(0,enemigos.length - 1);
     return enemigos[indice];
 }
-
+/*
+*FUNCIÓN QUE DEVUELVE UNA CLASE(DIFICULTAD) DE ENEMIGO A PARTIR DEL NÚMERO DE LA SALA
+*/
 function generarClaseEnemigo(numSala) {
     let result = 0;
     
@@ -662,7 +735,9 @@ function generarClaseEnemigo(numSala) {
 
     return result;
 }
-
+/*
+*FUNCIÓN QUE DEVUELVE UN CONSUMIBLE O EQUIPAMIENTO A PARTIR DEL NÚMERO DE LA SALA
+*/
 function generarTesoro(numSala) {
     let result = new Equipment(numSala);
     
@@ -680,7 +755,9 @@ function generarTesoro(numSala) {
     
     return result;
 }
-
+/*
+*FUNCIÓN QUE DEVUELVE UN CONSUMIBLE PARA LA TIENDA A PARTIR DEL NÚMERO DE LA SALA
+*/
 function generarConsumible(numSala) {
     let precioMax = 25;
 
@@ -701,7 +778,9 @@ function generarConsumible(numSala) {
     let indice = randomNum(0,consumibles.length - 1);
     return consumibles[indice];
 }
-
+/*
+*FUNCIÓN QUE DEVUELVE UN EQUIPAMIENTO PARA LA TIENDA A PARTIR DE LA RAREZA
+*/
 function generarEquipo(rareza) {
     let equipos = [];
     equipments.forEach(equipment => {
@@ -712,7 +791,9 @@ function generarEquipo(rareza) {
     let indice = randomNum(0,equipos.length - 1);
     return equipos[indice];
 }
-
+/*
+*FUNCIÓN QUE DEVUELVE UNA RAREZA DE EQUIPAMIENTO A PARTIR DEL NÚMERO DE LA SALA
+*/
 function generarRarezaEquipo(numSala) {
     let result = 0;
 
@@ -732,8 +813,11 @@ function generarRarezaEquipo(numSala) {
 
     return result;
 }
-
+/*
+*FUNCIÓN QUE INICIALIZA LOS EVENTOS PARA LAS VISTAS GENERADAS QUE NO SEAN INICIALES DE LA SALA
+*/
 function generarEventos() {
+
     $(".nueva-partida").click(function (e) {
         e.preventDefault();
         gameInit();
@@ -826,7 +910,9 @@ function generarEventos() {
         turnoEnemigo();
     });
 }
-
+/*
+*FUNCIÓN QUE CALCULA EL ATAQUE DEL JUGADOR
+*/
 function atacar() {
     let ataque = character.fuerza;
     let debilitacion = room.enemy.defensa / 2;
@@ -860,7 +946,9 @@ function atacar() {
     session.character = character;
     turnoEnemigo();
 }
-
+/*
+*FUNCIÓN EJECUTA EL TURNO ENEMIGO
+*/
 function turnoEnemigo() {
     let victoria = false;
     let derrota = false;
@@ -923,7 +1011,9 @@ function turnoEnemigo() {
         victoriaActions();
     }
 }
-
+/*
+*FUNCIÓN QUE MUESTRA EL INVENTARIO COMO ACCIONES
+*/
 function verInventario() {
     let view = "<div style='display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center; align-content: center; gap: 25px 50px;'>";
     view += "<div class='caja' onClick='generarViews()'>Volver</div>";
@@ -934,7 +1024,9 @@ function verInventario() {
     $(".actions").html(view);
     generarEventos();
 }
-
+/*
+*FUNCIÓN QUE CONSUME EL OBJETO USADO Y EJECUTA EL EFECTO CORRESPONDIENTE
+*/
 function usarObjeto(index) {
     room.dialogue = "Has usado " + character.inventario[index].nombre + ".<br/>";
     room.dialogue += "(" + character.inventario[index].explicacion + ")<br/>";
@@ -1050,7 +1142,9 @@ function usarObjeto(index) {
     session.room = room;
     session.character = character;
 }
-
+/*
+*FUNCIÓN QUE MUESTRA LAS ACCIONES TRAS LA DERROTA EN COMBATE O FIN DE LA PARTIDA
+*/
 function derrotaActions() {
     let view = "<div style='display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center; align-content: center; gap: 25px 50px;'>";
     view += "<div class='caja nueva-partida'>Empezar de nuevo</div>";
@@ -1059,7 +1153,9 @@ function derrotaActions() {
     $(".actions").html(view);
     generarEventos();
 }
-
+/*
+*FUNCIÓN QUE MUESTRA UNA ACCIÓN DE CONTINUAR A LA SIGUIENTE SALA
+*/
 function victoriaActions() {
     let view = "<div style='display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center; align-content: center; gap: 25px 50px;'>";
     view += "<div class='caja continuar'>Continuar</div>";
@@ -1067,7 +1163,9 @@ function victoriaActions() {
     $(".actions").html(view);
     generarEventos();
 }
-
+/*
+*FUNCIÓN QUE GENERA LA SIGUIENTE SALA
+*/
 function siguienteSala() {
     if((room.number + 1) % 10 != 3 && (room.number + 1) % 10 != 6 && (room.number + 1) % 10 != 9 && room.number<=50){
         room = new BattleRoom(room.number + 1);
@@ -1093,24 +1191,28 @@ function siguienteSala() {
     generarViews();
     if(room.number>50)endGame();
 }
-
+/*
+*FUNCIÓN QUE CALCULA EL AUMENTO DE ESTADÍSTICAS CON LA SUBIDA DE NIVEL
+*/
 function subirNivel() {
     character.exp = character.exp - (50 + character.nivel * 50);
     character.nivel += 1;
     room.dialogue += "¡Has subido de nivel! Ahora eres nivel " + (character.nivel) + ".<br/>";
     let bonus = parseInt(1 + character.nivel / 10);
     room.dialogue += "¡Tus estadísticas aumentan en +" + bonus + "!<br/>";
-    character.fuerza += 1;
-    character.defensa += 1;
-    character.destreza += 1;
-    character.magia += 1;
-    character.resistencia += 1;
-    character.suerte += 1;
-    character.vitalidad += 1;
-    character.espiritu += 1;
+    character.fuerza += bonus;
+    character.defensa += bonus;
+    character.destreza += bonus;
+    character.magia += bonus;
+    character.resistencia += bonus;
+    character.suerte += bonus;
+    character.vitalidad += bonus;
+    character.espiritu += bonus;
     restaurar();
 }
-
+/*
+*FUNCIÓN PARA ADQUIRIR OBJETOS
+*/
 function tomarObjeto(compra, objeto) {
     let posible = true;
     let item = {};
@@ -1154,13 +1256,17 @@ function tomarObjeto(compra, objeto) {
 
     session.character = character;
 }
-
+/*
+*FUNCIÓN PARA RESTAURAR VIDA Y ENERGIA
+*/
 function restaurar() {
     room.dialogue += "Tus puntos de salud y de espíritu han sido restaurados por completo.";
     character.vida = (character.vitalidad + character.equipo.arma.estadisticas.vitalidad + character.equipo.cabeza.estadisticas.vitalidad + character.equipo.torso.estadisticas.vitalidad + character.equipo.piernas.estadisticas.vitalidad) * 5;
     character.energia = (character.espiritu + character.equipo.arma.estadisticas.espiritu + character.equipo.cabeza.estadisticas.espiritu + character.equipo.torso.estadisticas.espiritu + character.equipo.piernas.estadisticas.espiritu) * 5;
 }
-
+/*
+*FUNCIÓN DE FIN DE PARTIDA
+*/
 function endGame() {
     room.dialogue = "Enhorabuena has completado los " + 50 + " pisos.";
     session.playing = false;
@@ -1174,7 +1280,9 @@ function endGame() {
     derrotaActions();
     winnerRoom();
 }
-
+/*
+*FUNCIÓN QUE MUESTRA LA VISTA DE FIN DE PARTIDA
+*/
 function winnerRoom(){
     let view = "<div style='display: flex; align-items: flex-start; justify-content: space-between;'><h1>¡Ganaste!</h1>";
     view += "<img class='info-img' src='./assets/000000/1x1/lorc/laurel-crown.svg' alt='crown-img' /></div>";
@@ -1182,18 +1290,23 @@ function winnerRoom(){
     view += "<h3>Puedes intentar superarte volviéndolo a intentar, o volver a la página principal si lo prefieres.</h3>";
     $(".room").html(view);
 }
-
+/*
+*FUNCIÓN QUE TRANSFORMA LA PRIMERA LETRA DE UN STRING EN MAYÚSCULA
+*/
 function capitalise(texto){
 	let aux = texto;
 	aux = aux.charAt(0).toUpperCase() + aux.slice(1);
 	return aux;
 }
-
+/*
+*FUNCIÓN QUE GENERA UN ENTERO ALEATORIO ENTRE DOS INCLUIDOS
+*/
 function randomNum(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
-//FUNCIONES QUE HACEN LLAMADA GET A LA API PARA OBTENER LOS DATOS ALMACENADOS EN LA BBDD
+/*
+*FUNCIONES QUE HACEN LLAMADA GET A LA API PARA OBTENER LOS DATOS ALMACENADOS EN LA BBDD
+*/
 async function getAllConsumables(){
 	let result;
 	try{
