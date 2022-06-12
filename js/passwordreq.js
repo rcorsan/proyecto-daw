@@ -13,12 +13,12 @@ $(document).ready(function () {
             let response = await postPassword(objeto).then((data) => data);
 
             if (response == "error") {
-                let error = "El usuario no se encuentra";
+                let error = "El usuario no se encuentra.";
                 $("#alerta").css("visibility","visible");
                 $("#alerta").html(error);
-                $("form")[0].reset();
+                $("#user").val("");s
             }else{
-                let mensaje = "comprueba tu correo electrónico";
+                let mensaje = "Comprueba tu correo electrónico.";
                 $("#alerta").css("background-color","green");
                 $("#alerta").css("color","white");
                 $("#alerta").css("visibility","visible");

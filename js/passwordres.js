@@ -21,14 +21,15 @@ $(document).ready(function () {
                 let error = "El usuario no se encuentra";
                 $("#alerta").css("visibility","visible");
                 $("#alerta").html(error);
-                $("form")[0].reset();
+                $("#user").val("");
             }else if(password2!=password){
                 let error = "las contraseñas no coinciden";
                 $("#alerta").css("visibility","visible");
                 $("#alerta").html(error);
-                $("form")[0].reset();
+                $("#password").val("");
+                $("#password2").val("");
             }else{
-                let mensaje = "contraseña cambiada correctamente";
+                let mensaje = "Contraseña cambiada correctamente.";
                 $("#alerta").css("background-color","green");
                 $("#alerta").css("color","white");
                 $("#alerta").css("visibility","visible");

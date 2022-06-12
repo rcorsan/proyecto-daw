@@ -23,16 +23,16 @@ $(document).ready(function () {
             let response = await postSignup(objeto).then((data) => data);
             //EL USUARIO YA EXISTE 
             if (response == "error") {
-                let error = "El usuario ya existe, inicia sesion";
+                let error = "El usuario ya existe, inicia sesion.";
                 $("#alerta").css("visibility", "visible");
                 $("#alerta").html(error);
-                $("form")[0].reset();
+                $("#user").val("");
             //EL CORREO YA EXISTE
             }else if (response == "error2") {
-                let error = "Ya existe una cuenta con ese email";
+                let error = "Ya existe una cuenta con ese email.";
                 $("#alerta").css("visibility", "visible");
                 $("#alerta").html(error);
-                $("form")[0].reset();
+                $("#email").val("");
             } else {
                 //GUARDA LA SESSION ENVIADA DESDE LA BBDD EN LOCALSTORAGE
                 localStorage.setItem("session", response);
@@ -40,24 +40,25 @@ $(document).ready(function () {
                 $(location).attr("href", "../");
             }
         }
+
         //SI LAS CONTRASEÑAS NO COINCIDEN 
         if (password2 != password) {
             let error = "Las contraseñas no coinciden";
             $("#alerta").css("visibility", "visible");
             $("#alerta").html(error);
-            $("form")[0].reset();
-        } else if(password==""|password2==""|password==""&password2==""|email==""|email==""&password==""|email==""&password2==""|email==""&password==""&password2==""|user==""|user==""&password==""|user==""&password2==""|user==""&email==""|user==""&email==""&password==""|user==""&email==""&password2==""|user==""&email==""&password==""&password2==""){
-            let error = "Se requiere escribir todos los campos";
+            $("#password").val("");
+            $("#password2").val("");
+        } else if(password=="" || password2=="" || email=="" || user==""){
+            let error = "Se requiere completar todos los campos.";
             $("#alerta").css("visibility", "visible");
             $("#alerta").html(error);
-            $("form")[0].reset();
         }else if(!validarEmail(email)){
-            let error = "El correo no es válido";
+            let error = "El correo no es válido.";
             $("#alerta").css("visibility", "visible");
             $("#alerta").html(error);
-            $("form")[0].reset();
+            $("#email").val("");
         }
-         else{
+        else{
             //SI TODO ES CORRECTO LLAMA A LA FUNCION 
             signup();
         }
