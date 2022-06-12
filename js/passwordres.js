@@ -18,17 +18,17 @@ $(document).ready(function () {
             let response = await postPasswordres(objeto).then((data) => data);
      
             if (response == "error2") {
-                let error = "El usuario no se encuentra";
+                let error = "El usuario no se encuentra.";
                 $("#alerta").css("visibility","visible");
                 $("#alerta").html(error);
                 $("form")[0].reset();
             }else if(response=="error"){
-                let error = "la contraseña no coincide";
+                let error = "La contraseña no coincide.";
                 $("#alerta").css("visibility","visible");
                 $("#alerta").html(error);
                 $("form")[0].reset();
             }else{
-                let mensaje = "contraseña cambiada correctamente";
+                let mensaje = "Contraseña cambiada correctamente.";
                 $("#alerta").css("background-color","green");
                 $("#alerta").css("visibility","visible");
                 $("#alerta").html(mensaje);

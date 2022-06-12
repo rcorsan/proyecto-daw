@@ -17,12 +17,12 @@ $(document).ready(function () {
             let response = await postLogin(objeto).then((data) => data);
             //SI EL USUARIO YA EXITE 
             if (response == "error") {
-                let error = "Usuario o contraseña no coinciden";
+                let error = "El usuario o la contraseña no coinciden.";
                 $("#alerta").css("visibility","visible");
                 $("#alerta").html(error);
                 $("form")[0].reset();
             }else if(password==""|user==""|password==""&user==""){
-                let error = "Se requiere escribir todos los campos";
+                let error = "Se requiere escribir todos los campos.";
                 $("#alerta").css("visibility", "visible");
                 $("#alerta").html(error);
                 $("form")[0].reset();
