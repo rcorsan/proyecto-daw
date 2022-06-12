@@ -17,13 +17,13 @@ $(document).ready(function () {
         
             let response = await postPasswordres(objeto).then((data) => data);
      
-            if (response == "error2") {
+            if (response == "error") {
                 let error = "El usuario no se encuentra";
                 $("#alerta").css("visibility","visible");
                 $("#alerta").html(error);
                 $("form")[0].reset();
-            }else if(response=="error"){
-                let error = "la contraseña no coincide";
+            }else if(password2!=password){
+                let error = "las contraseñas no coinciden";
                 $("#alerta").css("visibility","visible");
                 $("#alerta").html(error);
                 $("form")[0].reset();
