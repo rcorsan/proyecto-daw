@@ -30,6 +30,7 @@ $(document).ready(function () {
             }else{
                 let mensaje = "contraseña cambiada correctamente";
                 $("#alerta").css("background-color","green");
+                $("#alerta").css("color","white");
                 $("#alerta").css("visibility","visible");
                 $("#alerta").html(mensaje);
                 $(location).attr('href','../');
