@@ -10,7 +10,10 @@ $(document).ready(function () {
 	abrirAyuda();
 });
 
-//FUNCION QUE LLAMA A LA API MEDIANTE METODO GET PARA OBTENER LAS AYUDAS 
+/*
+*FUNCION QUE LLAMA A LA API MEDIANTE METODO GET PARA OBTENER LAS AYUDAS 
+*/
+
 async function getAllHelps() {
 	let result;
 	try {
@@ -29,7 +32,9 @@ async function getAllHelps() {
 let ayudas;
 
 
-//FUNCION QUE CREA LOS BOTONES 
+/*
+*FUNCION QUE CREA LOS BOTONES 
+*/
 
 function generarBotones() {
 	getAllHelps().then((data) => {
@@ -46,7 +51,10 @@ function generarBotones() {
 	});
 }
 
-//FUNCION QUE MUESTRA EL CONTENIDO DE LAS AYUDAS
+/*
+*FUNCION QUE MUESTRA EL CONTENIDO DE LAS AYUDAS
+*/
+
 function mostrarContenido(id){
 	getAllHelps().then((data) => {
 		ayudas = data;
@@ -72,7 +80,9 @@ function mostrarContenido(id){
 
 }
 
-//FUNCION QUE MUESTRA EL CONTENIDO DE LAS AYUDAS DEPENDIENDO DE CUAL HA SIDO PULSADA
+/*
+*FUNCION QUE MUESTRA EL CONTENIDO DE LAS AYUDAS DEPENDIENDO DE CUAL HA SIDO PULSADA
+*/
 function abrirAyuda(){
 	getAllHelps().then((data) => {
 		ayudas = data;	

@@ -1,6 +1,8 @@
 $(document).ready(function () {
-    //AL PULSAR EL BOTON SUBMIT HARA LO SIGUIENTE
-    $("#submit").on("click", function (event) {
+    /*
+    *AL PULSAR EL BOTON SUBMIT HARA LO SIGUIENTE
+    */
+   $("#submit").on("click", function (event) {
         event.preventDefault();
         //GUARDA LOS DATOS PASADOS EN EL FORMULARIO EN UN OBJETO
         let user = $("#user").val();
@@ -29,7 +31,9 @@ $(document).ready(function () {
     });
 });
 
-//FUNCION QUE LLAMA A LA API MEDIANTE POST PARA ENVIAR LOS DATOS PASADOS EN EL FORMULARIO 
+/*
+*FUNCION QUE LLAMA A LA API MEDIANTE POST PARA ENVIAR LOS DATOS PASADOS EN EL FORMULARIO 
+*/
 async function postLogin(params) {
     let result;
     try {

@@ -1,5 +1,8 @@
 $(document).ready(function () {
-    //AL PULSAR EL BOTON SUBMIT HARA LO SIGUIENTE
+    
+    /*
+    *AL PULSAR EL BOTON SUBMIT HARA LO SIGUIENTE
+    */
     $("#submit").on("click", function (event) {
         event.preventDefault();
         let user = $("#user").val();
@@ -35,6 +38,10 @@ $(document).ready(function () {
         passwordres();
     });
 });
+
+/*
+*FUNCION QUE HACE LLAMADA MEDIANTE POST A LA API
+*/
 async function postPasswordres(params) {
     let result;
     try {

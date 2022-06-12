@@ -7,7 +7,9 @@ $( document ).ready(function() {
 
 });
 
-//FUNCIONES QUE HACEN LLAMADA GET A LA API PARA OBTENER LOS DATOS ALMACENADOS EN LA BBDD
+/*
+*FUNCIONES QUE HACEN LLAMADA GET A LA API PARA OBTENER LOS DATOS ALMACENADOS EN LA BBDD
+*/
 async function getAllConsumables(){
 	let result;
 	try{
@@ -72,8 +74,9 @@ async function getAllEquipments(){
 	}	
 }
 
-//ASIGNAR LOS DATOS DEVUELTOS POR LAS FUNCIONES A VARIABLES 
-
+/*
+*ASIGNAR LOS DATOS DEVUELTOS POR LAS FUNCIONES A VARIABLES 
+*/
 let consumables;
 let skills;
 let enemies;
@@ -96,7 +99,9 @@ getAllEquipments().then((data)=>{
 });
 let elementos = [];
 
-//FUNCION QUE CREA LOS BOTONES DEPENDIENDO DEL NOMBRE DE LA CATEGORIA 
+/*
+*FUNCION QUE CREA LOS BOTONES DEPENDIENDO DEL NOMBRE DE LA CATEGORIA 
+*/
 function generarBotones(id){
 	
 	switch(id){
@@ -130,7 +135,9 @@ function generarBotones(id){
 	});
 };
 
-//FUNCION QUE ABRE EL LISTADO DE LOS CATALOGOS AL PULSAR
+/*
+*FUNCION QUE ABRE EL LISTADO DE LOS CATALOGOS AL PULSAR
+*/
 function abrirCatalogo(e) {
 	$(".tabcontent").css({"display" : "none"});
 	$(".tablinks").removeClass("active");
@@ -140,7 +147,9 @@ function abrirCatalogo(e) {
 	generarBotones(id);
 }
 
-//FUNCION QUE MUESTRA LOS ELEMENTOS DE CADA ELEMENTO DE LOS CATALOGOS 
+/*
+*FUNCION QUE MUESTRA LOS ELEMENTOS DE CADA ELEMENTO DE LOS CATALOGOS 
+*/
 function mostrarElemento(id){
 	const type = $("#"+id)[0].classList[1];
 
@@ -236,7 +245,9 @@ function mostrarElemento(id){
 	});
 }
 
-//FUNCIONES QUE CREAN LOS GRAFICOS MOSTRADOS EN LOS CATALOGOS MEDIANTE UNA LIBRERIA
+/*
+*FUNCIONES QUE CREAN LOS GRAFICOS MOSTRADOS EN LOS CATALOGOS MEDIANTE LA LIBRERIA CHART.JS
+*/
 
 function generarGrafico(element){
 	let datos = {};
@@ -397,7 +408,9 @@ function generarGraficoEnemigo(element){
 	);
 }
 
-//FUNCION QUE PONE MAYUSCULAS A LA PRIMERA LETRA DE LAS PALABRAS 
+/*
+*FUNCION QUE PONE MAYUSCULAS A LA PRIMERA LETRA DE LAS PALABRAS 
+*/
 
 function capitalise(texto){
 	let aux = texto;

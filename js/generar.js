@@ -7,37 +7,12 @@ $( document ).ready(function() {
 		document.location.href = "https://rcorsan.github.io/proyecto-daw/";
 	});
 
-	/*let objeto = {"mm":"aaa"};
-
-	getPrincipal(objeto).then((data) => {
-		console.info('Response:', data)
-	})*/
 	
 });
 
-/*async function getPrincipal(params){
-	let result;
-	try{
-		result = await $.ajax({
-			type: "POST",
-			url: "https://proyectodaw-api.herokuapp.com/",
-			data: JSON.stringify(params),
-			success: function (data) {
-				console.log(data);
-				result = data;
-			},
-		});
-		return result;
-	} catch (error) {
-		console.error(error);
-	}	
-}*/
-
-//funcion que llama a post
-
-
-//ASIGNACION DE VARIABLES
-
+/*
+*ASIGNACION DE VARIABLES
+*/
 let titulo = document.title;
 let href = document.location.href;
 const images = [
@@ -56,7 +31,9 @@ if(titulo != "Inicio"){
 }
 iconpath += "./assets/transparent/1x1/"+logo.autor+"/"+logo.title;
 
-//FUNCION QUE ESTABLECE EL ICONO DE LA PAGINA
+/*
+*FUNCION QUE ESTABLECE EL ICONO DE LA PAGINA
+*/
 function setIcon(){
 	let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
 	link.type = 'image/x-icon';
@@ -65,7 +42,9 @@ function setIcon(){
 	document.getElementsByTagName('head')[0].appendChild(link);
 }
 
-//FUNCION QUE CREA LA BARRA DE NAVEGACION 
+/*
+*FUNCION QUE CREA LA BARRA DE NAVEGACION 
+*/
 function generarNav(){
 	const paginas = [
 		{titulo:"Inicio",ref:""},
@@ -115,14 +94,18 @@ function generarNav(){
 	});
 }
 
-//FUNCION QUE GENERA EL PIE DE PAGINA
+/*
+*FUNCION QUE GENERA EL PIE DE PAGINA
+*/
 function generarFooter(){
 	let output = "<p>Proyecto 2º de grado superior de Desarrollo de Aplicaciones Web (<i>Raquel Corporales Sánchez y Víctor Talavera Moreno</i>) IES Barajas</p>";
 	output += "<p>Imágenes e iconos provenientes de <a href='https://game-icons.net/about.html#authors' target='_blank'>game-icons.net</a>.</p>";
 	$("#footer").html(output);
 }
 
-//FUNCION QUE COMPRUEBA SI LA SESION ESTA INICIADA O NO 
+/*
+*FUNCION QUE COMPRUEBA SI LA SESION ESTA INICIADA O NO 
+*/
 function sessionCompr(){
 	let session = false;
 
@@ -139,7 +122,9 @@ function sessionCompr(){
 	return session;
 }
 
-//FUNCION QUE ELIMINA LA SESION ALMACENADA EN LOCAL STORAGE PARA CERRAR SESION
+/*
+*FUNCION QUE ELIMINA LA SESION ALMACENADA EN LOCAL STORAGE PARA CERRAR SESION
+*/
 function cerrarSesion(session) {
 	updateSession(session).then((data)=>{
 		localStorage.removeItem('session');
@@ -147,7 +132,9 @@ function cerrarSesion(session) {
 	});
 }
 
-//FUNCION QUE ACTUALIZA LA SESION ENVIANDO LA ACTUAL ALMACENADA EN LOCALSTORAGE A LA BBDD MEDIANTE UNA LLAMADA POST A LA API 
+/*
+*FUNCION QUE ACTUALIZA LA SESION ENVIANDO LA ACTUAL ALMACENADA EN LOCALSTORAGE A LA BBDD MEDIANTE UNA LLAMADA POST A LA API 
+*/
 async function updateSession(params) {
 	let result;
 	try {

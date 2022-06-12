@@ -4,7 +4,9 @@ $(document).ready(function () {
 	generarRanking();
 });
 
-//FUNCION QUE HACE LLAMADA GET A LA API PARA OBTENER TODOS LOS USUARIOS 
+/*
+*FUNCION QUE HACE LLAMADA GET A LA API PARA OBTENER TODOS LOS USUARIOS 
+*/
 async function getAllUsers() {
 	let result;
 	try {
@@ -21,11 +23,13 @@ async function getAllUsers() {
 	}
 };
 
-//FUNCION QUE CREA EL RANKING
+/*
+*FUNCION QUE CREA EL RANKING
+*/
 function generarRanking() {
 	getAllUsers().then((data) => {
 		let users = data;	
-		//ORDENA LOS USUARIOS DE MAYOT A MENOR DEPENDIENDO DE SU MAXIMA PUNTUACION
+		//ORDENA LOS USUARIOS DE MAYOr A MENOR DEPENDIENDO DE SU MAXIMA PUNTUACION
         users.sort(function(a, b) {
             let textA = a.session.maxScore;
             let textB = b.session.maxScore;

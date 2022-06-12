@@ -1,5 +1,7 @@
 $(document).ready(function () {
-    //AL PULSAR EL BOTON SUBMIT HARA LO SIGUIENTE
+    /*
+    *AL PULSAR EL BOTON SUBMIT HARA LO SIGUIENTE
+    */
     $("#submit").on("click", function (event) {
         event.preventDefault();
         let user = $("#user").val();
@@ -9,8 +11,7 @@ $(document).ready(function () {
         async function password() {
         
             let response = await postPassword(objeto).then((data) => data);
-            console.log(response);
-     
+            
             if (response == "error") {
                 let error = "El usuario no se encuentra";
                 $("#alerta").css("visibility","visible");
@@ -27,6 +28,9 @@ $(document).ready(function () {
         password();
     });
 });
+/*
+*FUNCION QUE HACE LLAMADA MEDIANTE POST A LA API
+*/
 async function postPassword(params) {
     let result;
     try {
